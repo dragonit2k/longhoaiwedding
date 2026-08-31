@@ -121,12 +121,12 @@ const prefersReducedMotion = window.matchMedia(
 
 /* Gallery nguồn ảnh (đổi sang .jpg khi có ảnh thật) */
 const galleryImages = [
-  "assets/gallery-01.svg",
-  "assets/gallery-02.svg",
-  "assets/gallery-03.svg",
-  "assets/gallery-04.svg",
-  "assets/gallery-05.svg",
-  "assets/gallery-06.svg",
+  "assets/gallery-01.png",
+  "assets/gallery-02.png",
+  "assets/gallery-03.png",
+  "assets/gallery-04.png",
+  "assets/gallery-05.png",
+  "assets/gallery-06.png",
 ];
 
 /* =========================================================
@@ -355,6 +355,8 @@ function initScrollReveal() {
     return;
   }
 
+  // Nhiều threshold: bắt cả phần tử nhỏ (cần 15% lọt vào) lẫn phần tử rất cao
+  // hơn viewport (chỉ cần vừa chạm mép, ratio > 0) — tránh ảnh dọc lớn bị kẹt.
   const observer = new IntersectionObserver(
     (entries, obs) => {
       entries.forEach((entry) => {
@@ -364,10 +366,23 @@ function initScrollReveal() {
         }
       });
     },
-    { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
+    { threshold: [0, 0.15], rootMargin: "0px 0px -8% 0px" }
   );
 
   items.forEach((el) => observer.observe(el));
+
+  // Lưới an toàn: sau khi tải, mọi phần tử đã nằm trong (hoặc trên) viewport
+  // mà chưa reveal thì hiện luôn — phòng trường hợp observer bỏ sót.
+  window.setTimeout(() => {
+    items.forEach((el) => {
+      if (el.classList.contains("is-visible")) return;
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) {
+        el.classList.add("is-visible");
+        observer.unobserve(el);
+      }
+    });
+  }, 700);
 }
 
 /* =========================================================
