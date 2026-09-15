@@ -51,6 +51,11 @@ bằng ảnh của bạn (nhưng vẫn phải là định dạng SVG).
 
 Ảnh cần thay: `hero`, `bride-groom`, `gallery-01`→`gallery-06`, `countdown-bg`, `final`.
 
+**Ảnh chân dung Chú Rể / Cô Dâu** (phần "Chú Rể & Cô Dâu"): mặc định cả hai dùng
+chung `assets/bride-groom.png`. Muốn mỗi người một ảnh riêng, sửa `families.groom.photo`
+và `families.bride.photo` trong `script.js` trỏ tới ảnh của bạn (vd `assets/groom.jpg`,
+`assets/bride.jpg`). Ảnh nên vuông (crop tròn tự động).
+
 > Muốn sinh lại placeholder: `python3 assets/generate-placeholders.py`
 
 ---

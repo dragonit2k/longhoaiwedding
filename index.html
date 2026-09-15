@@ -3,27 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Linh &amp; Minh — Thiệp Cưới</title>
-  <meta name="description" content="Thiệp cưới Linh & Minh" />
+  <title>Đặng Long &amp; Lê Hoài — Thiệp Cưới</title>
+  <meta name="description" content="Thiệp cưới Đặng Long & Lê Hoài — 11.10.2026" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Linh & Minh — Thiệp Cưới" />
-  <meta property="og:description" content="Chúng mình sắp về chung một nhà" />
-  <meta property="og:image" content="assets/hero.png" />
+  <meta property="og:title" content="Đặng Long & Lê Hoài — Thiệp Cưới" />
+  <meta property="og:description" content="Chúng mình sắp về chung một nhà — 11.10.2026" />
+  <meta property="og:image" content="assets/hero.JPG" />
 
-  <!-- Favicon (monogram, inline SVG) -->
+  <!-- Favicon -->
   <link rel="icon" href="assets/icons8-wedding-48.png" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap"
     rel="stylesheet" />
 
   <!-- Preload hero only (performance) -->
-  <link rel="preload" as="image" href="assets/hero.png" />
+  <link rel="preload" as="image" href="assets/hero.JPG" />
 
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -50,7 +50,9 @@
       <a href="#hero" class="nav__brand" aria-label="Về đầu trang">L&amp;H</a>
       <nav class="nav__links" aria-label="Điều hướng chính">
         <a href="#story">Chuyện Tình</a>
-        <a href="#wedding">Lễ Cưới</a>
+        <a href="#coupleSection">Hai Họ</a>
+        <a href="#invitations">Thư Mời</a>
+        <a href="#reception">Tiệc Cưới</a>
         <a href="#gallery">Khoảnh Khắc</a>
         <a href="#rsvp">Xác Nhận</a>
       </nav>
@@ -64,98 +66,73 @@
   <div class="menu" id="mobileMenu" aria-hidden="true">
     <nav class="menu__links" aria-label="Điều hướng di động">
       <a href="#story">Chuyện Tình</a>
-      <a href="#wedding">Lễ Cưới</a>
+      <a href="#coupleSection">Hai Họ</a>
+      <a href="#invitations">Thư Mời</a>
+      <a href="#reception">Tiệc Cưới</a>
       <a href="#gallery">Khoảnh Khắc</a>
       <a href="#rsvp">Xác Nhận</a>
     </nav>
   </div>
 
   <main>
-    <!-- ===== Hero ===== -->
+    <!-- ===== 01 · Hero / Cover ===== -->
     <section class="hero" id="hero">
       <div class="hero__bg" data-parallax="0.2">
-        <img src="assets/hero.png" alt="Ảnh cưới của Long và Hoài" class="hero__img" decoding="async" fetchpriority="high" />
+        <img src="assets/hero.JPG" alt="Ảnh cưới của Đặng Long và Lê Hoài" class="hero__img" decoding="async" fetchpriority="high" />
         <div class="hero__overlay"></div>
       </div>
+      <div class="hero__frame" aria-hidden="true"></div>
       <div class="hero__content">
-        <p class="label hero__eyebrow" data-hero="1">Lễ Thành Hôn</p>
-        <h1 class="hero__names">
-          <span class="hero__name" data-hero="2" data-bride>Linh</span>
-          <span class="hero__amp" data-hero="3">&amp;</span>
-          <span class="hero__name" data-hero="4" data-groom>Minh</span>
-        </h1>
-        <div class="hero__meta" data-hero="5">
-          <span class="line"></span>
-          <p class="label">Lưu Lại Ngày Này</p>
-          <p class="hero__date" data-date-display>12 · 10 · 2026</p>
-          <span class="line"></span>
+        <div class="hero__card">
+          <p class="label hero__eyebrow">We're getting married</p>
+          <h1 class="hero__names">
+            <span class="hero__name" data-groom>Đặng Long</span>
+            <span class="hero__amp">&amp;</span>
+            <span class="hero__name" data-bride>Lê Hoài</span>
+          </h1>
+          <p class="label label--light hero__save">Lưu Lại Ngày Này</p>
+          <p class="hero__date" data-date-display>11 · 10 · 2026</p>
         </div>
       </div>
-      <a href="#story" class="scroll-indicator" data-hero="6" aria-label="Cuộn xuống để khám phá">
+      <!-- <a href="#intro" class="scroll-indicator" aria-label="Cuộn xuống để khám phá">
         <span class="label">Cuộn Xuống</span>
         <span class="scroll-indicator__arrow" aria-hidden="true"></span>
-      </a>
+      </a> -->
     </section>
 
-    <!-- ===== Couple Introduction ===== -->
+    <!-- ===== Tiệc Mừng Tân Hôn (khu riêng, có lời mời khách) ===== -->
+    <section class="reception section" id="reception">
+      <header class="section__head reveal">
+        <p class="label">Tiệc Mừng Tân Hôn</p>
+        <h2 class="display">Chung vui cùng gia đình</h2>
+        <div class="divider--diamond" aria-hidden="true"><span></span></div>
+      </header>
+      <div class="reception__invite reveal">
+        <p class="reception__lead">Trân trọng kính mời</p>
+        <p class="reception__guest" data-guest-name>Quý Khách</p>
+        <div class="divider" aria-hidden="true"></div>
+        <p class="reception__note">
+          Đến chung vui cùng gia đình chúng tôi trong tiệc mừng tân hôn của hai con.
+        </p>
+      </div>
+      <div class="reception__grid" id="receptionGrid"><!-- render từ script.js --></div>
+    </section>
+
+    <!-- ===== 02 · Intro (editorial split) ===== -->
     <section class="intro section" id="intro">
-      <div class="intro__grid">
+      <div class="wrap intro__grid">
         <div class="intro__text reveal">
           <p class="label">Chuyện Của Chúng Mình</p>
           <h2 class="display">Hai trái tim,<br />một hành trình chung.</h2>
-          <p class="lead">
+          <p class="intro__quote">&ldquo;Dù cuộc đời đưa ta đến đâu, anh cũng muốn cùng em đi đến đó.&rdquo;</p>
+          <p class="lead" style="margin-top:1.4rem">
             Từ một lời chào giản dị, chúng mình đã cùng nhau viết nên câu chuyện
-            của riêng mình — và hôm nay, chúng mình mong được kể tiếp câu chuyện ấy
-            cùng bạn.
+            của riêng mình — và hôm nay, mong được kể tiếp câu chuyện ấy cùng bạn.
           </p>
         </div>
         <figure class="intro__figure reveal reveal--mask">
-          <img src="assets/final.png" alt="Long và Hoài" loading="lazy" decoding="async" />
+          <img src="assets/final.png" alt="Đặng Long và Lê Hoài" loading="lazy" decoding="async" />
         </figure>
-      </div>
-    </section>
-
-    <!-- ===== Thông tin hai họ (dùng chung đàng trai & đàng gái) ===== -->
-    <section class="families section section--soft" id="familiesSection">
-      <header class="section__head reveal">
-        <p class="label">Trân Trọng Kính Mời</p>
-        <h2 class="display">Hai gia đình</h2>
-      </header>
-      <div class="families__grid" id="families"><!-- render từ script.js --></div>
-    </section>
-
-    <!-- ===== Love Story / Timeline ===== -->
-    <section class="timeline section section--soft" id="story">
-      <header class="section__head reveal">
-        <p class="label">Chuyện Của Chúng Mình</p>
-        <h2 class="display">Hành trình đến trọn đời</h2>
-      </header>
-      <div class="timeline__track" id="timelineTrack">
-        <div class="timeline__line" aria-hidden="true"><span id="timelineProgress"></span></div>
-
-        <article class="timeline__item reveal">
-          <div class="timeline__year">2021</div>
-          <div class="timeline__card">
-            <h3>Lần Đầu Gặp Gỡ</h3>
-            <p>Một lời chào giản dị đã mở ra khởi đầu cho câu chuyện của chúng mình.</p>
-          </div>
-        </article>
-
-        <article class="timeline__item reveal">
-          <div class="timeline__year">2022</div>
-          <div class="timeline__card">
-            <h3>Chuyến Đi Đầu Tiên</h3>
-            <p>Chúng mình nhận ra rằng mọi điều đều đẹp hơn khi có nhau.</p>
-          </div>
-        </article>
-
-        <article class="timeline__item reveal">
-          <div class="timeline__year">2026</div>
-          <div class="timeline__card">
-            <h3>Lời Cầu Hôn</h3>
-            <p>Một câu hỏi. Một câu trả lời chẳng thể nào quên.</p>
-          </div>
-        </article>
       </div>
     </section>
 
@@ -176,17 +153,94 @@
       </div>
     </section>
 
-    <!-- ===== Lịch trình sự kiện (render động từ config.events) ===== -->
-    <section class="details section" id="wedding">
+    <!-- ===== 03 · Love Story / Timeline ===== -->
+    <section class="timeline section section--soft" id="story">
       <header class="section__head reveal">
-        <p class="label">Lịch Trình</p>
-        <h2 class="display">Ngày Trọng Đại</h2>
+        <p class="label">Chuyện Của Chúng Mình</p>
+        <h2 class="display">Hành trình đến trọn đời</h2>
+        <div class="divider--diamond" aria-hidden="true"><span></span></div>
       </header>
+      <div class="timeline__track" id="timelineTrack">
+        <div class="timeline__line" aria-hidden="true"><span id="timelineProgress"></span></div>
+
+        <article class="timeline__item reveal">
+          <div class="timeline__year">2021</div>
+          <div class="timeline__card">
+            <h3>Lần Đầu Gặp Gỡ</h3>
+            <p>Một lời chào giản dị đã mở ra khởi đầu cho câu chuyện của chúng mình.</p>
+          </div>
+        </article>
+
+        <article class="timeline__item reveal">
+          <div class="timeline__year">2022</div>
+          <div class="timeline__card">
+            <h3>Yêu Nhau</h3>
+            <p>Một buổi tối bình yên, một câu hỏi khẽ khàng và một cái gật đầu mỉm cười.</p>
+          </div>
+        </article>
+
+        <article class="timeline__item reveal">
+          <div class="timeline__year">2023 – 2025</div>
+          <div class="timeline__card">
+            <h3>Đồng Hành</h3>
+            <p>Chúng mình cùng đi qua bao niềm vui, thử thách — để hiểu và trân trọng nhau hơn mỗi ngày.</p>
+          </div>
+        </article>
+
+        <article class="timeline__item reveal">
+          <div class="timeline__year">2026</div>
+          <div class="timeline__card">
+            <h3>Lời Cầu Hôn</h3>
+            <p>Một chiếc nhẫn, một lời hứa cho cả chặng đường dài phía trước.</p>
+          </div>
+        </article>
+
+        <article class="timeline__item reveal">
+          <div class="timeline__year">10 · 2026</div>
+          <div class="timeline__card">
+            <h3>Về Chung Một Nhà</h3>
+            <p>Hôm nay, chúng mình chính thức bắt đầu một hành trình mới mang tên gia đình.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== 04 · Chú Rể & Cô Dâu / Hai Họ (render từ script.js) ===== -->
+    <section class="couple section" id="coupleSection">
+      <header class="section__head reveal">
+        <p class="label">Trân Trọng Kính Mời</p>
+        <h2 class="display">Chú Rể &amp; Cô Dâu</h2>
+        <div class="divider--diamond" aria-hidden="true"><span></span></div>
+      </header>
+      <div class="couple__grid" id="couple"><!-- render từ script.js --></div>
+    </section>
+
+    <!-- ===== 05 · Thư Mời (nhà trai / nhà gái) ===== -->
+    <section class="details section section--soft" id="invitations">
+      <header class="section__head reveal">
+        <p class="label">Thư Mời</p>
+        <h2 class="display">Trân trọng kính mời</h2>
+        <div class="divider--diamond" aria-hidden="true"><span></span></div>
+      </header>
+      <p class="lead lead--center" style="margin-bottom:clamp(2rem,5vw,3.5rem)">
+        Sự hiện diện của quý khách là niềm vinh hạnh cho gia đình chúng tôi trong ngày trọng đại.
+      </p>
+      <!-- Danh sách nghi lễ đầy đủ, render động từ config.events -->
       <div class="events" id="eventsGrid"><!-- render từ script.js --></div>
     </section>
 
-    <!-- ===== Gallery ===== -->
-    <section class="gallery section" id="gallery">
+    <!-- ===== 06 · Lịch trình trong ngày (render động từ config.dayTimeline) ===== -->
+    <section class="day-timeline section" id="wedding">
+      <header class="section__head reveal">
+        <p class="label">Trình Tự Trong Ngày</p>
+        <h2 class="display">Diễn biến ngày trọng đại</h2>
+        <div class="divider--diamond" aria-hidden="true"><span></span></div>
+      </header>
+      <ul class="day-timeline__list" id="dayTimeline"><!-- render từ script.js --></ul>
+    </section>
+
+    <!-- ===== 07 · Gallery ===== -->
+    <section class="gallery section section--soft" id="gallery">
       <header class="section__head reveal">
         <p class="label">Khoảnh Khắc</p>
         <h2 class="display">Đôi khoảnh khắc<br />trên hành trình của chúng mình.</h2>
@@ -219,11 +273,11 @@
         <p class="quote__text">
           &ldquo;Dù cuộc đời đưa ta đến đâu,<br />anh cũng muốn cùng em đi đến đó.&rdquo;
         </p>
-        <cite class="quote__cite label" data-couple-upper>— Linh &amp; Minh</cite>
+        <cite class="quote__cite label" data-couple-upper>— Đặng Long &amp; Lê Hoài</cite>
       </blockquote>
     </section>
 
-    <!-- ===== RSVP ===== -->
+    <!-- ===== 08 · RSVP ===== -->
     <section class="rsvp section section--soft" id="rsvp">
       <div class="rsvp__inner reveal">
         <p class="label">Xác Nhận Tham Dự</p>
@@ -233,8 +287,8 @@
       </div>
     </section>
 
-    <!-- ===== Wedding Gift ===== -->
-    <section class="gift section" id="gift">
+    <!-- ===== 09 · Wedding Gift (render từ script.js) ===== -->
+    <section class="gift section section--paper" id="gift">
       <div class="gift__inner reveal">
         <p class="label">Gửi Chút Yêu Thương</p>
         <h2 class="display">Sự hiện diện của bạn<br />đã là món quà quý giá nhất.</h2>
@@ -245,7 +299,7 @@
       <div class="banks" id="banks"><!-- render từ script.js --></div>
     </section>
 
-    <!-- ===== Final ===== -->
+    <!-- ===== 10 · Final / Closing ===== -->
     <section class="final section" id="final">
       <div class="final__bg" data-parallax="0.1">
         <img src="assets/final.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
@@ -254,8 +308,8 @@
       <div class="final__content reveal">
         <p class="label label--light">Cảm Ơn</p>
         <h2 class="final__title">Vì đã là một phần<br />trong chuyện tình của chúng mình</h2>
-        <p class="final__names" data-couple>Linh &amp; Minh</p>
-        <p class="final__date" data-date-display>12 · 10 · 2026</p>
+        <p class="final__names" data-couple>Đặng Long &amp; Lê Hoài</p>
+        <p class="final__date" data-date-display>11 · 10 · 2026</p>
       </div>
     </section>
   </main>
@@ -263,7 +317,7 @@
   <!-- ===== Footer ===== -->
   <footer class="footer">
     <p class="label">Thân Thương,</p>
-    <p class="footer__names" data-couple>Linh &amp; Minh</p>
+    <p class="footer__names" data-couple>Đặng Long &amp; Lê Hoài</p>
     <p class="footer__copy">© 2026</p>
   </footer>
 
@@ -273,7 +327,7 @@
       <path d="M9 18V5l10-2v13" /><circle cx="6" cy="18" r="3" /><circle cx="16" cy="16" r="3" />
     </svg>
   </button>
-  <audio id="bgMusic" src="assets/i_do.mp3" loop preload="none" autoplay></audio>
+  <audio id="bgMusic" src="assets/i_do.mp3" loop preload="none"></audio>
 
   <!-- ===== Lightbox ===== -->
   <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Xem ảnh">
