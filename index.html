@@ -19,11 +19,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Great+Vibes&family=Dancing+Script:wght@400;500;600&family=Montserrat:wght@300;400;500&display=swap"
     rel="stylesheet" />
 
   <!-- Preload hero only (performance) -->
-  <link rel="preload" as="image" href="assets/hero.JPG" />
+  <link rel="preload" as="image" href="assets/hero.jpg" />
 
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -44,282 +44,228 @@
   <!-- ===== Custom Cursor (desktop only, JS-toggled) ===== -->
   <div class="cursor" id="cursor" aria-hidden="true"></div>
 
-  <!-- ===== Navigation ===== -->
-  <header class="nav" id="nav">
-    <div class="nav__inner">
-      <a href="#hero" class="nav__brand" aria-label="Về đầu trang">L&amp;H</a>
-      <nav class="nav__links" aria-label="Điều hướng chính">
-        <a href="#story">Chuyện Tình</a>
-        <a href="#coupleSection">Hai Họ</a>
-        <a href="#invitations">Thư Mời</a>
-        <a href="#reception">Tiệc Cưới</a>
-        <a href="#gallery">Khoảnh Khắc</a>
-        <a href="#rsvp">Xác Nhận</a>
-      </nav>
-      <button class="nav__toggle" id="navToggle" aria-label="Mở menu" aria-expanded="false" aria-controls="mobileMenu">
-        <span></span><span></span>
-      </button>
-    </div>
-  </header>
-
-  <!-- ===== Mobile fullscreen menu ===== -->
-  <div class="menu" id="mobileMenu" aria-hidden="true">
-    <nav class="menu__links" aria-label="Điều hướng di động">
-      <a href="#story">Chuyện Tình</a>
-      <a href="#coupleSection">Hai Họ</a>
-      <a href="#invitations">Thư Mời</a>
-      <a href="#reception">Tiệc Cưới</a>
-      <a href="#gallery">Khoảnh Khắc</a>
-      <a href="#rsvp">Xác Nhận</a>
-    </nav>
-  </div>
-
-  <main>
-    <!-- ===== 01 · Hero / Cover ===== -->
-    <section class="hero" id="hero">
-      <div class="hero__bg" data-parallax="0.2">
-        <img src="assets/hero.JPG" alt="Ảnh cưới của Đặng Long và Lê Hoài" class="hero__img" decoding="async" fetchpriority="high" />
-        <div class="hero__overlay"></div>
-      </div>
-      <div class="hero__frame" aria-hidden="true"></div>
-      <div class="hero__content">
-        <div class="hero__card">
-          <p class="label hero__eyebrow">We're getting married</p>
-          <h1 class="hero__names">
-            <span class="hero__name" data-groom>Đặng Long</span>
-            <span class="hero__amp">&amp;</span>
-            <span class="hero__name" data-bride>Lê Hoài</span>
-          </h1>
-          <p class="label label--light hero__save">Lưu Lại Ngày Này</p>
-          <p class="hero__date" data-date-display>11 · 10 · 2026</p>
+  <!-- ====== INVITE COLUMN (cột thiệp — mobile-first, PC căn giữa) ====== -->
+  <div class="invite" id="invite">
+    <main>
+      <!-- ===== 01 · Hero / Cover ===== -->
+      <section class="hero" id="hero">
+        <p class="hero__eyebrow">Save The Date</p>
+        <div class="hero__photo reveal">
+          <span class="ribbon ribbon--tl" aria-hidden="true"></span>
+          <span class="ribbon ribbon--tr" aria-hidden="true"></span>
+          <img src="assets/hero.jpg" alt="Ảnh cưới của Đặng Long và Lê Hoài"
+               decoding="async" fetchpriority="high" />
         </div>
-      </div>
-      <!-- <a href="#intro" class="scroll-indicator" aria-label="Cuộn xuống để khám phá">
-        <span class="label">Cuộn Xuống</span>
-        <span class="scroll-indicator__arrow" aria-hidden="true"></span>
-      </a> -->
-    </section>
+        <p class="hero__invite-label">Wedding Invitation</p>
+        <h1 class="hero__names">
+          <span class="hero__name" data-groom>Đặng Long</span>
+          <span class="hero__amp">&amp;</span>
+          <span class="hero__name" data-bride>Lê Hoài</span>
+        </h1>
+        <div class="squiggle" aria-hidden="true">
+          <svg viewBox="0 0 220 20" fill="none" stroke="currentColor" stroke-width="1.2">
+            <path d="M2 10c18-12 36 12 54 0s36-12 54 0 36 12 54 0 36-12 54 0" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <p class="hero__date" data-date-display>11 · 10 · 2026</p>
+      </section>
 
-    <!-- ===== Tiệc Mừng Tân Hôn (khu riêng, có lời mời khách) ===== -->
-    <section class="reception section" id="reception">
-      <header class="section__head reveal">
-        <p class="label">Tiệc Mừng Tân Hôn</p>
-        <h2 class="display">Chung vui cùng gia đình</h2>
-        <div class="divider--diamond" aria-hidden="true"><span></span></div>
-      </header>
-      <div class="reception__invite reveal">
-        <p class="reception__lead">Trân trọng kính mời</p>
-        <p class="reception__guest" data-guest-name>Quý Khách</p>
-        <div class="divider" aria-hidden="true"></div>
-        <p class="reception__note">
-          Đến chung vui cùng gia đình chúng tôi trong tiệc mừng tân hôn của hai con.
-        </p>
-      </div>
-      <div class="reception__grid" id="receptionGrid"><!-- render từ script.js --></div>
-    </section>
+      <!-- ===== 02 · Lời ngỏ (quote) ===== -->
+      <section class="opening section">
+        <div class="opening__card reveal">
+          <p class="opening__lead">Xin chào,</p>
+          <p class="opening__text">        
+Khi bạn nhận được tấm thiệp này, <br>
+Ngày cưới của chúng tớ đã đến rất gần rồi <br>
+Giữa hàng vạn ngày trong đời, <br>
+Chúng tớ sẽ hạnh phúc biết bao<br>
+Khi có bạn ở bên vào khoảnh khắc đặc biệt này! 💕<br><br>
 
-    <!-- ===== 02 · Intro (editorial split) ===== -->
-    <section class="intro section" id="intro">
-      <div class="wrap intro__grid">
-        <div class="intro__text reveal">
-          <p class="label">Chuyện Của Chúng Mình</p>
-          <h2 class="display">Hai trái tim,<br />một hành trình chung.</h2>
-          <p class="intro__quote">&ldquo;Dù cuộc đời đưa ta đến đâu, anh cũng muốn cùng em đi đến đó.&rdquo;</p>
-          <p class="lead" style="margin-top:1.4rem">
-            Từ một lời chào giản dị, chúng mình đã cùng nhau viết nên câu chuyện
-            của riêng mình — và hôm nay, mong được kể tiếp câu chuyện ấy cùng bạn.
+Lâu lắm rồi không gặp, <br>
+đám cưới mình nhất định phải tới nha! ❤️
           </p>
         </div>
-        <figure class="intro__figure reveal reveal--mask">
-          <img src="assets/final.png" alt="Đặng Long và Lê Hoài" loading="lazy" decoding="async" />
-        </figure>
-      </div>
-    </section>
+      </section>
 
-    <!-- ===== Countdown ===== -->
-    <section class="countdown section" id="countdown">
-      <div class="countdown__bg" data-parallax="0.15">
-        <img src="assets/countdown-bg.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
-        <div class="countdown__overlay"></div>
-      </div>
-      <div class="countdown__content reveal">
-        <p class="label label--light">Đếm Ngược Đến Ngày Trọng Đại</p>
+      <!-- ===== 03 · Chú Rể & Cô Dâu / Hai Họ ===== -->
+      <section class="couple section" id="coupleSection">
+        <header class="section__head reveal">
+          <span class="pill">Hai Họ</span>
+          <h2 class="opening__sign" data-couple>Chú rể  &amp;  Cô dâu</h2>
+        </header>
+        <div class="couple__grid" id="couple"><!-- render từ script.js --></div>
+      </section>
+
+      <!-- ===== 04 · Đếm ngược ===== -->
+      <section class="countdown section" id="countdown">
+        <header class="section__head reveal">
+          <span class="pill">Đếm Ngược</span>
+          <h2 class="display">Đến ngày trọng đại</h2>
+        </header>
         <div class="countdown__grid" id="countdownGrid" role="timer" aria-live="off">
           <div class="countdown__unit"><span class="countdown__num" data-cd="days">--</span><span class="countdown__lbl">Ngày</span></div>
           <div class="countdown__unit"><span class="countdown__num" data-cd="hours">--</span><span class="countdown__lbl">Giờ</span></div>
           <div class="countdown__unit"><span class="countdown__num" data-cd="minutes">--</span><span class="countdown__lbl">Phút</span></div>
           <div class="countdown__unit"><span class="countdown__num" data-cd="seconds">--</span><span class="countdown__lbl">Giây</span></div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- ===== 03 · Love Story / Timeline ===== -->
-    <section class="timeline section section--soft" id="story">
-      <header class="section__head reveal">
-        <p class="label">Chuyện Của Chúng Mình</p>
-        <h2 class="display">Hành trình đến trọn đời</h2>
-        <div class="divider--diamond" aria-hidden="true"><span></span></div>
-      </header>
-      <div class="timeline__track" id="timelineTrack">
-        <div class="timeline__line" aria-hidden="true"><span id="timelineProgress"></span></div>
+       <!-- ===== 06 · Tiệc Mừng Tân Hôn ===== -->
+      <section class="reception section" id="reception">
+        <header class="section__head reveal">
+          <span class="pill">Tiệc Mừng Tân Hôn</span>
+          <h2 class="display">Chung vui cùng gia đình</h2>
+        </header>
+        <div class="reception__invite reveal">
+          <p class="reception__lead">Trân trọng kính mời</p>
+          <p class="reception__guest" data-guest-name>Quý Khách</p>
+          <div class="divider" aria-hidden="true"></div>
+          <p class="reception__note">
+            Đến chung vui cùng gia đình chúng tôi trong tiệc mừng tân hôn của hai con.
+          </p>
+        </div>
+        <div class="reception__grid" id="receptionGrid"><!-- render từ script.js --></div>
+      </section>
 
-        <article class="timeline__item reveal">
-          <div class="timeline__year">2021</div>
-          <div class="timeline__card">
-            <h3>Lần Đầu Gặp Gỡ</h3>
-            <p>Một lời chào giản dị đã mở ra khởi đầu cho câu chuyện của chúng mình.</p>
-          </div>
-        </article>
-
-        <article class="timeline__item reveal">
-          <div class="timeline__year">2022</div>
-          <div class="timeline__card">
-            <h3>Yêu Nhau</h3>
-            <p>Một buổi tối bình yên, một câu hỏi khẽ khàng và một cái gật đầu mỉm cười.</p>
-          </div>
-        </article>
-
-        <article class="timeline__item reveal">
-          <div class="timeline__year">2023 – 2025</div>
-          <div class="timeline__card">
-            <h3>Đồng Hành</h3>
-            <p>Chúng mình cùng đi qua bao niềm vui, thử thách — để hiểu và trân trọng nhau hơn mỗi ngày.</p>
-          </div>
-        </article>
-
-        <article class="timeline__item reveal">
-          <div class="timeline__year">2026</div>
-          <div class="timeline__card">
-            <h3>Lời Cầu Hôn</h3>
-            <p>Một chiếc nhẫn, một lời hứa cho cả chặng đường dài phía trước.</p>
-          </div>
-        </article>
-
-        <article class="timeline__item reveal">
-          <div class="timeline__year">10 · 2026</div>
-          <div class="timeline__card">
-            <h3>Về Chung Một Nhà</h3>
-            <p>Hôm nay, chúng mình chính thức bắt đầu một hành trình mới mang tên gia đình.</p>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- ===== 04 · Chú Rể & Cô Dâu / Hai Họ (render từ script.js) ===== -->
-    <section class="couple section" id="coupleSection">
-      <header class="section__head reveal">
-        <p class="label">Trân Trọng Kính Mời</p>
-        <h2 class="display">Chú Rể &amp; Cô Dâu</h2>
-        <div class="divider--diamond" aria-hidden="true"><span></span></div>
-      </header>
-      <div class="couple__grid" id="couple"><!-- render từ script.js --></div>
-    </section>
-
-    <!-- ===== 05 · Thư Mời (nhà trai / nhà gái) ===== -->
-    <section class="details section section--soft" id="invitations">
-      <header class="section__head reveal">
-        <p class="label">Thư Mời</p>
-        <h2 class="display">Trân trọng kính mời</h2>
-        <div class="divider--diamond" aria-hidden="true"><span></span></div>
-      </header>
-      <p class="lead lead--center" style="margin-bottom:clamp(2rem,5vw,3.5rem)">
-        Sự hiện diện của quý khách là niềm vinh hạnh cho gia đình chúng tôi trong ngày trọng đại.
-      </p>
-      <!-- Danh sách nghi lễ đầy đủ, render động từ config.events -->
-      <div class="events" id="eventsGrid"><!-- render từ script.js --></div>
-    </section>
-
-    <!-- ===== 06 · Lịch trình trong ngày (render động từ config.dayTimeline) ===== -->
-    <section class="day-timeline section" id="wedding">
-      <header class="section__head reveal">
-        <p class="label">Trình Tự Trong Ngày</p>
-        <h2 class="display">Diễn biến ngày trọng đại</h2>
-        <div class="divider--diamond" aria-hidden="true"><span></span></div>
-      </header>
-      <ul class="day-timeline__list" id="dayTimeline"><!-- render từ script.js --></ul>
-    </section>
-
-    <!-- ===== 07 · Gallery ===== -->
-    <section class="gallery section section--soft" id="gallery">
-      <header class="section__head reveal">
-        <p class="label">Khoảnh Khắc</p>
-        <h2 class="display">Đôi khoảnh khắc<br />trên hành trình của chúng mình.</h2>
-      </header>
-      <div class="gallery__grid" id="galleryGrid">
-        <button class="gallery__item gallery__item--tall reveal" data-index="0" aria-label="Xem ảnh 1 lớn">
-          <img src="assets/gallery-01.png" alt="Khoảnh khắc 1" loading="lazy" decoding="async" />
-        </button>
-        <button class="gallery__item reveal" data-index="1" aria-label="Xem ảnh 2 lớn">
-          <img src="assets/gallery-02.png" alt="Khoảnh khắc 2" loading="lazy" decoding="async" />
-        </button>
-        <button class="gallery__item reveal" data-index="2" aria-label="Xem ảnh 3 lớn">
-          <img src="assets/gallery-03.png" alt="Khoảnh khắc 3" loading="lazy" decoding="async" />
-        </button>
-        <button class="gallery__item reveal" data-index="3" aria-label="Xem ảnh 4 lớn">
-          <img src="assets/gallery-04.png" alt="Khoảnh khắc 4" loading="lazy" decoding="async" />
-        </button>
-        <button class="gallery__item gallery__item--wide reveal" data-index="4" aria-label="Xem ảnh 5 lớn">
-          <img src="assets/gallery-05.png" alt="Khoảnh khắc 5" loading="lazy" decoding="async" />
-        </button>
-        <button class="gallery__item gallery__item--wide reveal" data-index="5" aria-label="Xem ảnh 6 lớn">
-          <img src="assets/gallery-06.png" alt="Khoảnh khắc 6" loading="lazy" decoding="async" />
-        </button>
-      </div>
-    </section>
-
-    <!-- ===== Couple Quote ===== -->
-    <section class="quote section" id="quote">
-      <blockquote class="quote__inner reveal">
-        <p class="quote__text">
-          &ldquo;Dù cuộc đời đưa ta đến đâu,<br />anh cũng muốn cùng em đi đến đó.&rdquo;
+      <!-- ===== 05 · Thư Mời (nhà trai / nhà gái) ===== -->
+      <section class="details section" id="invitations">
+        <header class="section__head reveal">
+          <span class="pill">Chi tiết thời gian</span>
+          <h2 class="display">Trân trọng kính mời</h2>
+        </header>
+        <p class="lead lead--center">
+          Sự hiện diện của quý khách là niềm vinh hạnh cho gia đình chúng tôi trong ngày trọng đại.
         </p>
-        <cite class="quote__cite label" data-couple-upper>— Đặng Long &amp; Lê Hoài</cite>
-      </blockquote>
-    </section>
+        <div class="events" id="eventsGrid"><!-- render từ script.js --></div>
+      </section>
 
-    <!-- ===== 08 · RSVP ===== -->
-    <section class="rsvp section section--soft" id="rsvp">
-      <div class="rsvp__inner reveal">
-        <p class="label">Xác Nhận Tham Dự</p>
-        <h2 class="display">Chúng mình rất mong<br />được đón tiếp bạn</h2>
-        <p class="lead">Sự hiện diện của bạn là món quà quý giá nhất với chúng mình.</p>
-        <button class="btn btn--filled" id="rsvpOpen">Xác Nhận Ngay</button>
-      </div>
-    </section>
 
-    <!-- ===== 09 · Wedding Gift (render từ script.js) ===== -->
-    <section class="gift section section--paper" id="gift">
-      <div class="gift__inner reveal">
-        <p class="label">Gửi Chút Yêu Thương</p>
-        <h2 class="display">Sự hiện diện của bạn<br />đã là món quà quý giá nhất.</h2>
-        <p class="lead gift__note">
+      <!-- ===== 07 · Gallery / Khoảnh Khắc ===== -->
+      <section class="gallery section" id="gallery">
+        <!-- <header class="section__head reveal">
+          <span class="pill">Khoảnh Khắc</span>
+          <h2 class="display">Của chúng mình</h2>
+        </header> -->
+        <div class="gallery__story" id="galleryGrid">
+          <p class="gallery__quote reveal">
+            "Từ khi gặp em,<br>
+            mỗi giấc mơ của anh đều có em bên cạnh.<br>
+            Mỗi câu yêu thương trong sách anh đọc,<br>
+            đều khiến anh nghĩ về em.
+          </p>
+
+          <div class="gallery__collage reveal">
+            <button class="gallery__item g-tall" data-index="0" aria-label="Xem ảnh 1 lớn">
+              <img src="assets/gallery-01.png" alt="Khoảnh khắc 1" loading="lazy" decoding="async" />
+            </button>
+            <button class="gallery__item" data-index="1" aria-label="Xem ảnh 2 lớn">
+              <img src="assets/gallery-02.png" alt="Khoảnh khắc 2" loading="lazy" decoding="async" />
+            </button>
+            <button class="gallery__item" data-index="2" aria-label="Xem ảnh 3 lớn">
+              <img src="assets/gallery-03.png" alt="Khoảnh khắc 3" loading="lazy" decoding="async" />
+            </button>
+          </div>
+
+          <p class="gallery__quote gallery__quote--right reveal">
+            "Giữa hàng vạn người, ta gặp được người mình nên gặp.<br>
+            giữa hàng vạn năm, trong cõi thời gian hoang hoải,<br>
+            không sớm một bước, cũng chẳng muộn một giây,<br>
+            chỉ vừa vặn tìm thấy nhau."
+          </p>
+
+          <div class="gallery__collage gallery__collage--alt reveal">
+            <button class="gallery__item" data-index="3" aria-label="Xem ảnh 4 lớn">
+              <img src="assets/gallery-04.png" alt="Khoảnh khắc 4" loading="lazy" decoding="async" />
+            </button>
+            <button class="gallery__item g-tall" data-index="4" aria-label="Xem ảnh 5 lớn">
+              <img src="assets/gallery-05.png" alt="Khoảnh khắc 5" loading="lazy" decoding="async" />
+            </button>
+            <button class="gallery__item" data-index="5" aria-label="Xem ảnh 6 lớn">
+              <img src="assets/gallery-06.png" alt="Khoảnh khắc 6" loading="lazy" decoding="async" />
+            </button>
+          </div>
+
+          <p class="gallery__quote reveal">
+            "Anh không phải điểm cuối của tình yêu, <br>
+            mà là động lực để yêu thương. <br>
+            vì có anh, em đã yêu thế giới này hơn."
+          </p>
+        </div>
+      </section>
+
+      <!-- ===== 07b · Lời nhắn tới khách mời ===== -->
+      <section class="notes section" id="notes">
+        <div class="notes__card reveal">
+          <p class="notes__title">Bạn thân mến...</p>
+          <ul class="notes__list">
+            <li class="notes__item">
+              <span class="notes__heart" aria-hidden="true">❤</span>
+              <p>Nếu bạn đang ở một thành phố khác hoặc bận rộn công việc không thể đến dự, đừng lo, chúng mình đã nhận được lời chúc của bạn rồi nhé.</p>
+            </li>
+            <li class="notes__item">
+              <span class="notes__heart" aria-hidden="true">❤</span>
+              <p>Nếu bạn có thời gian, hãy chuẩn bị một tâm trạng vui vẻ và một chiếc bụng đói, rồi thoải mái đến chung vui cùng chúng mình nhé.</p>
+            </li>
+            <li class="notes__item">
+              <span class="notes__heart" aria-hidden="true">❤</span>
+              <p>Chúng mình đã chuẩn bị một chút nhạc nhẹ cho buổi lễ, kèm theo vài món bánh ngọt và đồ uống. Rất mong bạn ghé qua thưởng thức.</p>
+            </li>
+            <li class="notes__item">
+              <span class="notes__heart" aria-hidden="true">❤</span>
+              <p>Sẽ có những góc chụp ảnh cực đẹp tại buổi lễ, mong chờ những bức hình lung linh của bạn đó.</p>
+            </li>
+            <li class="notes__item">
+              <span class="notes__heart" aria-hidden="true">❤</span>
+              <p>Hôm đó tụi mình sẽ khá bận rộn, nếu có gì sơ suất mong bạn thông cảm nha.</p>
+            </li>
+          </ul>
+          <div class="notes__actions">
+            <a class="btn btn--filled notes__call" href="tel:0347730837" data-call-groom>
+              <span class="notes__call-icon" aria-hidden="true">📞</span> SĐT chú rể
+            </a>
+            <a class="btn btn--filled notes__call" href="tel:0352088635" data-call-bride>
+              <span class="notes__call-icon" aria-hidden="true">📞</span> SĐT cô dâu
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== 08 · RSVP ===== -->
+      <section class="rsvp section" id="rsvp">
+        <div class="rsvp__inner reveal">
+          <!-- <span class="pill">Xác Nhận Tham Dự</span> -->
+          <h2 class="display">Chúng mình rất mong<br />được đón tiếp bạn</h2>
+          <p class="lead lead--center">Sự hiện diện của bạn là món quà quý giá nhất với chúng mình.</p>
+          <button class="btn btn--filled" id="rsvpOpen">Xác Nhận Ngay</button>
+        </div>
+      </section>
+
+      <!-- ===== 09 · Wedding Gift (QR — 2 cột cùng 1 hàng) ===== -->
+      <section class="gift section" id="gift">
+        <header class="section__head reveal">
+          <!-- <span class="pill">Gửi Chút Yêu Thương</span> -->
+          <h2 class="display">Hộp mừng cưới</h2>
+        </header>
+        <p class="lead lead--center gift__note">
           Nếu có nhã ý, bạn có thể gửi lời chúc mừng đến chúng mình qua tài khoản dưới đây.
         </p>
-      </div>
-      <div class="banks" id="banks"><!-- render từ script.js --></div>
-    </section>
+        <div class="banks" id="banks"><!-- render từ script.js — 2 cột --></div>
+      </section>
 
-    <!-- ===== 10 · Final / Closing ===== -->
-    <section class="final section" id="final">
-      <div class="final__bg" data-parallax="0.1">
-        <img src="assets/final.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
-        <div class="final__overlay"></div>
-      </div>
-      <div class="final__content reveal">
-        <p class="label label--light">Cảm Ơn</p>
-        <h2 class="final__title">Vì đã là một phần<br />trong chuyện tình của chúng mình</h2>
-        <p class="final__names" data-couple>Đặng Long &amp; Lê Hoài</p>
-        <p class="final__date" data-date-display>11 · 10 · 2026</p>
-      </div>
-    </section>
-  </main>
-
-  <!-- ===== Footer ===== -->
-  <footer class="footer">
-    <p class="label">Thân Thương,</p>
-    <p class="footer__names" data-couple>Đặng Long &amp; Lê Hoài</p>
-    <p class="footer__copy">© 2026</p>
-  </footer>
+      <!-- ===== 10 · Final / Closing ===== -->
+      <section class="final section" id="final">
+        <div class="final__content reveal">
+          <p class="pill pill--ghost">Cảm Ơn</p>
+          <p class="final__text">
+            Cảm ơn bạn đã dành thời gian đọc những dòng này và trở thành một phần
+            trong ngày hạnh phúc của chúng mình.
+          </p>
+          <p class="final__names" data-couple>Đặng Long <&amp; Lê Hoài</p>
+          <p class="final__date" data-date-display>11 · 10 · 2026</p>
+        </div>
+      </section>
+    </main>
+  </div>
 
   <!-- ===== Floating Music Button ===== -->
   <button class="music" id="musicBtn" aria-label="Bật nhạc nền" aria-pressed="false">
@@ -327,7 +273,7 @@
       <path d="M9 18V5l10-2v13" /><circle cx="6" cy="18" r="3" /><circle cx="16" cy="16" r="3" />
     </svg>
   </button>
-  <audio id="bgMusic" src="assets/i_do.mp3" loop preload="none"></audio>
+  <audio id="bgMusic" src="assets/Say Yes.mp3" loop preload="auto"></audio>
 
   <!-- ===== Lightbox ===== -->
   <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Xem ảnh">
@@ -345,7 +291,7 @@
     <div class="modal__panel">
       <button class="modal__close" data-close-modal aria-label="Đóng">&times;</button>
       <div class="modal__body" id="rsvpFormWrap">
-        <p class="label">Xác Nhận Tham Dự</p>
+        <span class="pill">Xác Nhận Tham Dự</span>
         <h3 class="modal__title" id="rsvpTitle">Chúng mình rất mong được gặp bạn</h3>
         <form class="rsvp-form" id="rsvpForm" novalidate>
           <div class="field">
