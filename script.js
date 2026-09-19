@@ -63,7 +63,7 @@ const weddingConfig = {
       date: "2026-10-09",
       lunar: "Ngày 29 tháng 8 năm Bính Ngọ",
       time: "15:00",
-      title: "Lễ Vu Quy",
+      title: "Lễ Nạp Tài",
       venue: "Tư gia nhà gái",
       address: "Thôn Eo Bàn, Xã Ngọc Trạo, Tỉnh Thanh Hóa",
       mapUrl: "https://maps.app.goo.gl/5ycScWKWtn7CqyGG6",
