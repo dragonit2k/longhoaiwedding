@@ -5,11 +5,14 @@
 
 /* ---------- Data Configuration (chỉnh sửa ở đây) ---------- */
 const weddingConfig = {
-  bride: "Đặng Long",
-  groom: "Lê Hoài",
+  groom: "Đặng Long",
+  bride: "Lê Hoài",
 
   // Mốc chính dùng cho ĐẾM NGƯỢC & ngày hiển thị ở Hero/Final (giờ địa phương)
   weddingDate: "2026-10-11T11:00:00",
+
+  // Các ngày highlight trên lịch tháng cưới (theo tháng của weddingDate)
+  calendarHighlightDays: [9, 10, 11],
 
   // Thông tin hai họ — tách riêng Chú Rể / Cô Dâu (ảnh + tên + cha mẹ mỗi bên)
   //   name  : tên riêng hiển thị lớn cho từng người
@@ -112,6 +115,8 @@ const weddingConfig = {
       venue: "Tư gia nhà trai",
       address: "Thôn Ngọc Đỉnh, Xã Hoằng Hóa, Tỉnh Thanh Hóa",
       mapUrl: "https://maps.app.goo.gl/bsy9gxdggjhfZ4o37",
+      // feature: true -> thẻ nổi bật kiểu "hero" (banner OUR WEDDING + tên cô dâu chú rể + hình minh hoạ)
+      feature: true,
     }
   ],
 
@@ -123,9 +128,15 @@ const weddingConfig = {
   //   bankCode : mã ngân hàng cho VietQR (vd "techcombank", "vietcombank",
   //              "mbbank", "acb", "bidv", "vietinbank", "tpbank", "vpbank")
   //              -> tra tại https://api.vietqr.io/v2/banks (trường "shortName")
+  //   role     : vai trò hiển thị trên thẻ ("Chú Rể" / "Cô Dâu")
+  //   person   : tên riêng viết dạng script (có dấu) hiển thị to trên thẻ
+  //   photo    : ảnh chân dung tròn cạnh mã QR
   banks: [
     {
       label: "Nhà Trai",
+      role: "Chú Rể",
+      person: "Đặng Long",
+      photo: "assets/CR.png",
       name: "DANG VAN LONG",
       number: "104 868 325 941",
       bank: "Vietinbank",
@@ -133,6 +144,9 @@ const weddingConfig = {
     },
     {
       label: "Nhà Gái",
+      role: "Cô Dâu",
+      person: "Lê Hoài",
+      photo: "assets/CD.png",
       name: "LE THI HOAI",
       number: "1903 591 116 5014",
       bank: "Techcombank",
@@ -160,7 +174,7 @@ const galleryImages = [
    ========================================================= */
 function applyConfig() {
   const c = weddingConfig;
-  const coupleName = `${c.bride} & ${c.groom}`;
+  const coupleName = `${c.groom} & ${c.bride}`;
 
   document.title = `${coupleName} — Thiệp Cưới`;
   setText("[data-bride]", c.bride);
@@ -235,28 +249,43 @@ function renderBanks(banks) {
   if (!wrap || !Array.isArray(banks)) return;
 
   wrap.innerHTML = banks
-    .map((b) => {
-      const acc = String(b.number).replace(/\s+/g, "");
-      const qr = b.bankCode
-        ? `<div class="bank-card__qr">
-             <img src="${escapeAttr(vietQrUrl(b))}" alt="Mã QR chuyển khoản ${escapeAttr(b.label || b.name)}"
+    .map((b, i) => {
+      const qrUrl = b.bankCode ? vietQrUrl(b) : "";
+      const dlName = `QR-${(b.role || b.label || "mung-cuoi").replace(/\s+/g, "-")}.png`;
+
+      const photo = b.photo
+        ? `<figure class="gift-card__photo">
+             <img src="${escapeAttr(b.photo)}" alt="Ảnh ${escapeAttr(b.person || b.role || "")}"
+                  loading="lazy" decoding="async" />
+           </figure>`
+        : "";
+
+      const qr = qrUrl
+        ? `<div class="gift-card__qr">
+             <img src="${escapeAttr(qrUrl)}" alt="Mã QR chuyển khoản ${escapeAttr(b.person || b.label)}"
                   loading="lazy" decoding="async"
-                  onerror="this.closest('.bank-card__qr').classList.add('is-missing')" />
-             <span class="bank-card__qr-fallback">Quét mã QR<br />bằng app ngân hàng</span>
+                  onerror="this.closest('.gift-card__qr').classList.add('is-missing')" />
+             <span class="gift-card__qr-fallback">Quét mã QR<br />bằng app ngân hàng</span>
            </div>`
         : "";
+
+      const download = qrUrl
+        ? `<a class="btn btn--filled btn--sm gift-card__download" href="${escapeAttr(qrUrl)}"
+              download="${escapeAttr(dlName)}" data-download-qr="${escapeAttr(dlName)}"
+              target="_blank" rel="noopener">Tải ảnh QR</a>`
+        : "";
+
+      // Xen kẽ: dòng lẻ ảnh bên trái, dòng chẵn ảnh bên phải
+      const flip = i % 2 === 1 ? " gift-card--flip" : "";
       return `
-      <article class="bank-card reveal">
-        <p class="label bank-card__label">${escapeHtml(b.label || "")}</p>
-        ${qr}
-        <dl class="bank-card__info">
-          <div><dt>Chủ tài khoản</dt><dd>${escapeHtml(b.name || "")}</dd></div>
-          <div><dt>Số tài khoản</dt><dd class="bank-card__num">${escapeHtml(b.number || "")}</dd></div>
-          <div><dt>Ngân hàng</dt><dd>${escapeHtml(b.bank || "")}</dd></div>
-        </dl>
-        <button class="btn btn--sm bank-card__copy" data-copy-target="${escapeAttr(acc)}">
-          <span class="copy-label">Sao Chép STK</span>
-        </button>
+      <article class="gift-card reveal${flip}">
+        ${photo}
+        <div class="gift-card__panel">
+          <p class="gift-card__role">${escapeHtml(b.role || b.label || "")}</p>
+          <p class="gift-card__name">${escapeHtml(b.person || b.name || "")}</p>
+          ${qr}
+          ${download}
+        </div>
       </article>`;
     })
     .join("");
@@ -290,6 +319,74 @@ function renderCouple(fam) {
     </div>`;
 }
 
+/* ---------- Phần đầu thẻ nổi bật: banner + tên + hình minh hoạ ---------- */
+// SVG cô dâu chú rể line-art, đơn sắc theo tông thiệp (currentColor = maroon)
+const COUPLE_SVG = `
+  <svg class="invite-card__figure" viewBox="0 0 120 120" fill="none"
+       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <!-- Chú rể -->
+    <circle cx="46" cy="30" r="9" fill="currentColor" stroke="none"/>
+    <path d="M39 41h14l4 10-4 3v50h-14V54l-4-3z"/>
+    <path d="M46 54v44"/>
+    <!-- Cô dâu -->
+    <circle cx="76" cy="32" r="9" fill="currentColor" stroke="none"/>
+    <path d="M76 41c9 0 12 8 12 8l6 49H58l6-49s3-8 12-8z"/>
+    <path d="M60 66h32"/>
+    <!-- Tay nắm nhau -->
+    <path d="M55 62c4 3 9 3 13 0"/>
+  </svg>`;
+
+function buildFeatureHeader() {
+  const c = weddingConfig;
+  return `
+    <div class="invite-card__hero">
+      <p class="invite-card__banner">Our Wedding</p>
+      <p class="invite-card__hero-lead">Trân trọng thông báo hôn lễ của</p>
+      <p class="invite-card__hero-name">${escapeHtml(c.groom || "")}</p>
+      <span class="invite-card__hero-heart" aria-hidden="true">♥</span>
+      <p class="invite-card__hero-name">${escapeHtml(c.bride || "")}</p>
+      ${COUPLE_SVG}
+    </div>`;
+}
+
+/* ---------- Thẻ mời dùng chung (Thư mời + Tiệc tân hôn) ----------
+   Bố cục: [feature] tiêu đề → giờ → hộp ngày 3 ô (thứ · ngày · tháng-năm)
+           → âm lịch → khung địa điểm (nhãn + nơi tổ chức + địa chỉ) → nút bản đồ */
+function buildInviteCard(ev, { title, highlight } = {}) {
+  const dd = formatDMY(ev.date);
+  const cardTitle = title || ev.title || "";
+  const mapBtn = ev.mapUrl
+    ? `<a class="btn btn--filled btn--sm invite-card__map" href="${escapeAttr(ev.mapUrl)}"
+          target="_blank" rel="noopener noreferrer">Xem bản đồ</a>`
+    : "";
+
+  // Thẻ nổi bật (feature): banner "OUR WEDDING" + tên cô dâu/chú rể + hình minh hoạ
+  const feature = ev.feature ? buildFeatureHeader() : "";
+  const cls = `invite-card reveal${highlight ? " invite-card--highlight" : ""}${ev.feature ? " invite-card--feature" : ""}`;
+
+  return `
+    <article class="${cls}">
+      ${feature}
+      <h3 class="invite-card__title">${escapeHtml(cardTitle)}</h3>
+      ${ev.time ? `<p class="invite-card__time">Vào Lúc ${escapeHtml(ev.time)}</p>` : ""}
+
+      <div class="invite-card__date">
+        <span class="invite-card__dow">${escapeHtml(dd.dow)}</span>
+        <span class="invite-card__day">${escapeHtml(dd.day)}</span>
+        <span class="invite-card__my">${escapeHtml(dd.monthYear)}</span>
+      </div>
+
+      ${ev.lunar ? `<p class="invite-card__lunar">(Tức ${escapeHtml(ev.lunar)})</p>` : ""}
+
+      <div class="invite-card__place">
+        <p class="invite-card__place-label">Địa điểm tổ chức</p>
+        ${ev.venue ? `<p class="invite-card__venue">${escapeHtml(ev.venue)}</p>` : ""}
+        ${ev.address ? `<p class="invite-card__addr">${escapeHtml(ev.address)}</p>` : ""}
+        ${mapBtn}
+      </div>
+    </article>`;
+}
+
 /* ---------- Render khu "Tiệc Mừng Tân Hôn" riêng ---------- */
 function renderReception(items) {
   const wrap = document.getElementById("receptionGrid");
@@ -297,27 +394,11 @@ function renderReception(items) {
 
   wrap.innerHTML = items
     .map((ev) => {
-      const dd = formatDMY(ev.date);
-      const mapBtn = ev.mapUrl
-        ? `<a class="event__map" href="${escapeAttr(ev.mapUrl)}" target="_blank" rel="noopener noreferrer">
-             Xem bản đồ <span aria-hidden="true">→</span>
-           </a>`
-        : "";
-      const side = ev.receptionSide
-        ? `<p class="label reception-card__side">${escapeHtml(ev.receptionSide)}</p>`
-        : "";
-      return `
-      <article class="reception-card reveal">
-        ${side}
-        <h3 class="reception-card__title">${escapeHtml(ev.title || "")}</h3>
-        <div class="reception-card__meta">
-          <div><dt>Thời gian</dt><dd>${escapeHtml(ev.time || "")} · ${dd.full}</dd></div>
-          <div><dt>Địa điểm</dt><dd>${escapeHtml(ev.venue || "")}</dd></div>
-        </div>
-        ${ev.lunar ? `<p class="reception-card__lunar">Âm lịch: ${escapeHtml(ev.lunar)}</p>` : ""}
-        <p class="reception-card__addr">${escapeHtml(ev.address || "")}</p>
-        ${mapBtn}
-      </article>`;
+      // Ghép "Tiệc Thân Mật" + bên (Nhà Trai/Nhà Gái) làm tiêu đề thẻ
+      const title = ev.receptionSide
+        ? `${ev.title || ""} ${ev.receptionSide}`.trim()
+        : ev.title;
+      return buildInviteCard(ev, { title, highlight: true });
     })
     .join("");
 }
@@ -328,35 +409,7 @@ function renderEvents(events) {
   if (!wrap || !Array.isArray(events)) return;
 
   wrap.innerHTML = events
-    .map((ev) => {
-      const dd = formatDMY(ev.date);
-      const mapBtn = ev.mapUrl
-        ? `<a class="event__map" href="${escapeAttr(ev.mapUrl)}" target="_blank" rel="noopener noreferrer">
-             Xem bản đồ <span aria-hidden="true">→</span>
-           </a>`
-        : "";
-      const badge = ev.highlight && ev.badge
-        ? `<span class="event__badge">${escapeHtml(ev.badge)}</span>`
-        : "";
-      return `
-      <article class="event reveal${ev.highlight ? " event--highlight" : ""}">
-        <div class="event__time">
-          <span class="event__hour">${escapeHtml(ev.time || "")}</span>
-          <span class="event__dow">${dd.dow}</span>
-        </div>
-        <div class="event__body">
-          ${badge}
-          <h3 class="event__title">${escapeHtml(ev.title || "")}</h3>
-          <p class="event__date">
-            <span>${dd.full}</span>
-            ${ev.lunar ? `<span class="event__lunar">(Âm lịch: ${escapeHtml(ev.lunar)})</span>` : ""}
-          </p>
-          <p class="event__venue">${escapeHtml(ev.venue || "")}</p>
-          <p class="event__addr">${escapeHtml(ev.address || "")}</p>
-          ${mapBtn}
-        </div>
-      </article>`;
-    })
+    .map((ev) => buildInviteCard(ev, { highlight: ev.highlight }))
     .join("");
 }
 
@@ -449,6 +502,45 @@ function updateNum(el, value) {
   void el.offsetWidth;
   el.classList.add("tick");
   window.setTimeout(() => el.classList.remove("tick"), 300);
+}
+
+/* =========================================================
+   Lịch tháng cưới — highlight các ngày diễn ra hôn lễ
+   Tháng/năm lấy theo weddingDate; ngày cưới chính gắn trái tim.
+   Các ngày cần highlight khai báo ở calendarHighlightDays.
+   ========================================================= */
+function initWeddingCalendar() {
+  const wrap = document.getElementById("weddingCalendar");
+  if (!wrap) return;
+
+  const wd = new Date(weddingConfig.weddingDate);
+  if (isNaN(wd)) return;
+  const year = wd.getFullYear();
+  const month = wd.getMonth(); // 0-indexed
+  const weddingDay = wd.getDate();
+
+  const highlight = weddingConfig.calendarHighlightDays || [weddingDay];
+  const weekdayLabels = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
+
+  // Vị trí cột của ngày 1 (lịch bắt đầu từ Thứ Hai)
+  const firstDow = (new Date(year, month, 1).getDay() + 6) % 7;
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  const head = `<div class="calendar__head">${pad(month + 1)}.${year}</div>`;
+  const weekRow = `<div class="calendar__weekdays">${weekdayLabels
+    .map((d) => `<span class="calendar__wd">${d}</span>`)
+    .join("")}</div>`;
+
+  let cells = "";
+  for (let i = 0; i < firstDow; i++) cells += `<span class="calendar__day calendar__day--empty"></span>`;
+  for (let day = 1; day <= daysInMonth; day++) {
+    const isHi = highlight.includes(day);
+    const cls = `calendar__day${isHi ? " calendar__day--hi" : ""}`;
+    cells += `<span class="${cls}"><span class="calendar__num">${day}</span></span>`;
+  }
+  const grid = `<div class="calendar__grid">${cells}</div>`;
+
+  wrap.innerHTML = head + weekRow + grid;
 }
 
 /* =========================================================
@@ -697,6 +789,37 @@ async function copyToClipboard(value) {
 }
 
 /* =========================================================
+   Tải ảnh QR về máy (ảnh VietQR cross-origin — cần fetch blob)
+   ========================================================= */
+function initDownloadQr() {
+  document.addEventListener("click", async (e) => {
+    const link = e.target.closest("[data-download-qr]");
+    if (!link) return;
+    e.preventDefault();
+
+    const url = link.getAttribute("href");
+    const filename = link.getAttribute("data-download-qr") || "QR.png";
+    try {
+      const res = await fetch(url, { mode: "cors" });
+      if (!res.ok) throw new Error("fetch failed");
+      const blob = await res.blob();
+      const objUrl = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = objUrl;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(objUrl);
+      showToast("Đã tải ảnh QR");
+    } catch (_) {
+      // Fallback: mở ảnh ở tab mới để người dùng lưu thủ công
+      window.open(url, "_blank", "noopener");
+    }
+  });
+}
+
+/* =========================================================
    Background music
    ========================================================= */
 function initMusic() {
@@ -791,14 +914,19 @@ function setText(selector, value) {
   if (el) el.textContent = value;
 }
 
-// Định dạng ngày dương: trả về { full: "12/10/2026", dow: "Thứ Hai" }
+// Định dạng ngày dương: trả về mảnh ngày để dựng "hộp 3 ô" (thứ · ngày · tháng-năm)
 const DOW_VI = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
 function formatDMY(iso) {
   const d = new Date(iso + "T00:00:00");
-  if (isNaN(d)) return { full: iso || "", dow: "" };
+  if (isNaN(d)) return { full: iso || "", dow: "", day: "", monthYear: "" };
+  const day = pad(d.getDate());
+  const month = pad(d.getMonth() + 1);
+  const year = d.getFullYear();
   return {
-    full: `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()}`,
+    full: `${day}/${month}/${year}`,
     dow: DOW_VI[d.getDay()],
+    day, // "18"
+    monthYear: `${month} - ${year}`, // "09 - 2026"
   };
 }
 
@@ -855,11 +983,13 @@ document.addEventListener("DOMContentLoaded", () => {
   applyConfig();
   initPreloader();
   initCountdown();
+  initWeddingCalendar();
   initScrollReveal();
   initGallery();
   initLightbox();
   initRSVP();
   initCopyAccount();
+  initDownloadQr();
   initMusic();
   initCursor();
 });
