@@ -23,7 +23,7 @@ const weddingConfig = {
       father: "Ông Đặng Văn Khiêm",
       mother: "Bà Nguyễn Thị Hiền",
       address: "Thôn Ngọc Đỉnh, Xã Hoằng Hóa, Tỉnh Thanh Hóa",
-      phone: "0900000000",
+      phone: "0347730837",
     },
     bride: {
       side: "Nhà Gái",
@@ -33,7 +33,7 @@ const weddingConfig = {
       father: "Ông Lê Hồng Phú",
       mother: "Bà Bùi Thị Hiên",
       address: "Thôn Eo Bàn, Xã Ngọc Trạo, Tỉnh Thanh Hóa",
-      phone: "0911111111",
+      phone: "0352088635",
     },
   },
 
