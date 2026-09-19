@@ -208,7 +208,7 @@ function getGuestName() {
     const raw = new URLSearchParams(window.location.search).get("guest");
     if (!raw) return "";
     // Cắt độ dài, bỏ ký tự điều khiển; escapeHtml lo phần còn lại khi render.
-    return raw.trim().replace(/[ -<>]/g, "").slice(0, 60);
+    return raw.trim().replace(/[ -<>&"]/g, "").slice(0, 60);
   } catch (_) {
     return "";
   }
