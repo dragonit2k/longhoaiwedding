@@ -16,7 +16,7 @@ serverless function (`api/og.js`) render sẵn thẻ meta cho bot.
 
 Nếu tên project KHÁC `longhoaiwedding`, sửa domain ở 2 chỗ:
 - `api/og.js` → biến `FALLBACK_BASE`
-- `index.html` → các thẻ `og:url`, `og:image`, `twitter:image` (5 dòng)
+- `invite.html` → các thẻ `og:url`, `og:image`, `twitter:image` (5 dòng)
 
 Rồi commit + push lại (Vercel tự deploy).
 
@@ -36,6 +36,8 @@ Zalo/Facebook **cache** preview rất lâu. Sau khi deploy, dùng công cụ deb
 - Zalo: thường tự cập nhật sau vài phút; nếu chưa, thêm `&v=2` vào cuối link để né cache.
 
 ## Lưu ý
-- File `vercel.json` route `/` qua function OG rồi tự chuyển người dùng
-  thật vào `index.html` — nên link mở ra vẫn là thiệp đầy đủ như cũ.
+- Thiệp nằm ở `invite.html` (không phải `index.html`). `vercel.json` route `/`
+  qua function OG (`api/og.js`): **bot** (Zalo/Messenger) đọc meta có tên khách
+  và ẩn; **người thật** được tự chuyển sang `/invite?guest=` để xem thiệp đầy đủ.
+- Mở/kiểm tra local: dùng `invite.html` (vd `http://localhost:PORT/invite.html`).
 - GitHub Pages cũ vẫn chạy song song, nhưng nên gửi link Vercel để có OG động.

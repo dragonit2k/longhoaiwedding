@@ -6,7 +6,7 @@ không phụ thuộc CDN (chỉ dùng Google Fonts).
 
 ```
 thiep-cuoi-online/
-├── index.html          # Cấu trúc trang
+├── invite.html         # Cấu trúc trang
 ├── style.css           # Toàn bộ giao diện + animation
 ├── script.js           # Logic (countdown, gallery, RSVP, music...)
 ├── README.md
@@ -46,7 +46,7 @@ bằng ảnh của bạn (nhưng vẫn phải là định dạng SVG).
 
 **Cách 2 — Dùng ảnh `.jpg`/`.webp` thật (khuyến nghị):**
 1. Bỏ ảnh vào `/assets/`, ví dụ `hero.jpg`, `gallery-01.jpg`...
-2. Trong `index.html`, đổi `src="assets/hero.svg"` → `src="assets/hero.jpg"`.
+2. Trong `invite.html`, đổi `src="assets/hero.svg"` → `src="assets/hero.jpg"`.
 3. Trong `script.js`, sửa mảng `galleryImages` (đầu file) từ `.svg` → `.jpg`.
 
 Ảnh cần thay: `hero`, `bride-groom`, `gallery-01`→`gallery-06`, `countdown-bg`, `final`.
@@ -161,7 +161,7 @@ families: {
 > Nhạc **không tự phát** khi mở trang (do trình duyệt chặn autoplay) — chỉ phát sau
 > khi người dùng bấm nút. Khi chưa có file, nút sẽ hiện thông báo nhắc thêm nhạc.
 
-Đổi tên file khác: sửa `src="assets/music.mp3"` trong thẻ `<audio>` ở `index.html`.
+Đổi tên file khác: sửa `src="assets/music.mp3"` trong thẻ `<audio>` ở `invite.html`.
 
 ---
 
@@ -204,11 +204,11 @@ Mở `style.css`, sửa các biến trong `:root` (đầu file):
 
 ## 9. Cách chỉnh font
 
-Fonts nạp từ Google Fonts trong `<head>` của `index.html`
+Fonts nạp từ Google Fonts trong `<head>` của `invite.html`
 (**Cormorant Garamond** cho tiêu đề/tên, **Montserrat** cho nội dung).
 
 Đổi font:
-1. Thay thẻ `<link>` Google Fonts trong `index.html`.
+1. Thay thẻ `<link>` Google Fonts trong `invite.html`.
 2. Cập nhật biến trong `style.css`:
 
 ```css
@@ -264,10 +264,10 @@ banks: [
 
 | Nội dung | Vị trí |
 |----------|--------|
-| Timeline (Chuyện Tình) | `index.html` → `<section class="timeline">` |
-| Lời chào / câu quote | `index.html` → `<section class="quote">` |
+| Timeline (Chuyện Tình) | `invite.html` → `<section class="timeline">` |
+| Lời chào / câu quote | `invite.html` → `<section class="quote">` |
 | Tài khoản mừng cưới + QR | `weddingConfig.banks` trong `script.js` (xem mục 10) |
-| Text các section | trực tiếp trong `index.html` |
+| Text các section | trực tiếp trong `invite.html` |
 
 ---
 

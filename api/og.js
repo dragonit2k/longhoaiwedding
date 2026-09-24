@@ -2,8 +2,8 @@
    OG động theo ?guest= cho bot mạng xã hội (Zalo/Messenger/FB)
    ---------------------------------------------------------
    Bot không chạy JS nên phải render sẵn thẻ meta trong HTML.
-   Người dùng thật sẽ được <script> chuyển về index.html để
-   xem thiệp đầy đủ (kèm ?guest= để hiển thị tên trong trang).
+   Bot KHÔNG được redirect (sẽ mất OG động); chỉ người thật mới được
+   <script> chuyển về invite.html để xem thiệp đầy đủ (kèm ?guest=).
    ========================================================= */
 
 export const config = { runtime: "edge" };
@@ -33,9 +33,20 @@ function esc(str) {
     .replace(/"/g, "&quot;");
 }
 
+// Bot mạng xã hội (không chạy JS): chỉ cần meta, KHÔNG được redirect —
+// nếu redirect, bot crawl trang đích và mất OG động theo tên khách.
+function isBot(ua) {
+  if (!ua) return false;
+  return /facebookexternalhit|facebot|zalo|twitterbot|telegrambot|whatsapp|discordbot|slackbot|linkedinbot|skypeuripreview|pinterest|googlebot|bingbot|embedly|redditbot|viber|line-podcast|line\//i.test(
+    ua
+  );
+}
+
 export default function handler(req) {
   const url = new URL(req.url);
   const base = FALLBACK_BASE || `${url.protocol}//${url.host}`;
+  const ua = req.headers.get("user-agent") || "";
+  const bot = isBot(ua);
 
   const guest = cleanGuest(url.searchParams.get("guest"));
   const title = guest ? `${COUPLE} - Thiệp mời ${guest}` : DEFAULT_TITLE;
@@ -49,8 +60,14 @@ export default function handler(req) {
     : `${base}/`;
   // Người thật chuyển tới thiệp đầy đủ; giữ nguyên query để hiển thị tên trong trang.
   const redirect = guest
-    ? `/index.html?guest=${encodeURIComponent(guest)}`
-    : `/index.html`;
+    ? `/invite?guest=${encodeURIComponent(guest)}`
+    : `/invite`;
+
+  // Bot: không chèn refresh/script (đọc meta rồi dừng). Người thật: tự chuyển.
+  const redirectTags = bot
+    ? ""
+    : `<meta http-equiv="refresh" content="0; url=${esc(redirect)}" />
+  <script>window.location.replace(${JSON.stringify(redirect)});</script>`;
 
   const html = `<!DOCTYPE html>
 <html lang="vi">
@@ -79,8 +96,7 @@ export default function handler(req) {
   <meta name="twitter:image" content="${esc(image)}" />
 
   <link rel="canonical" href="${esc(canonical)}" />
-  <meta http-equiv="refresh" content="0; url=${esc(redirect)}" />
-  <script>window.location.replace(${JSON.stringify(redirect)});</script>
+  ${redirectTags}
 </head>
 <body>
   <p>Đang mở thiệp cưới… Nếu không tự chuyển, hãy

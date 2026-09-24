@@ -755,11 +755,19 @@ function initLightbox() {
   const btnClose = document.getElementById("lbClose");
   const btnPrev = document.getElementById("lbPrev");
   const btnNext = document.getElementById("lbNext");
+  if (!lightbox || !lbImage) return;
+
   const triggers = document.querySelectorAll("#galleryGrid .gallery__item");
-  if (!lightbox || !triggers.length) return;
 
   let current = 0;
   let lastFocused = null;
+  let single = false; // true khi xem 1 ảnh lẻ (hero, chân dung) — ẩn nút prev/next
+
+  const setNavVisible = (visible) => {
+    [btnPrev, btnNext].forEach((b) => {
+      if (b) b.style.display = visible ? "" : "none";
+    });
+  };
 
   const show = (index) => {
     current = (index + galleryImages.length) % galleryImages.length;
@@ -767,28 +775,63 @@ function initLightbox() {
     lbImage.alt = `Khoảnh khắc ${current + 1}`;
   };
 
-  const open = (index) => {
-    lastFocused = document.activeElement;
-    show(index);
+  const openState = () => {
     lightbox.classList.add("is-open");
     lightbox.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
-    btnClose.focus();
+    if (btnClose) btnClose.focus();
+  };
+
+  // Mở lightbox theo index trong gallery (có prev/next)
+  const open = (index) => {
+    lastFocused = document.activeElement;
+    single = false;
+    setNavVisible(true);
+    show(index);
+    openState();
+  };
+
+  // Mở lightbox với 1 ảnh lẻ bất kỳ (hero / chân dung) — không prev/next
+  const openSingle = (src, alt) => {
+    if (!src) return;
+    lastFocused = document.activeElement;
+    single = true;
+    setNavVisible(false);
+    lbImage.src = src;
+    lbImage.alt = alt || "";
+    openState();
   };
 
   const close = () => {
     lightbox.classList.remove("is-open");
     lightbox.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
+    setNavVisible(true);
     if (lastFocused) lastFocused.focus();
   };
 
   triggers.forEach((btn, i) =>
     btn.addEventListener("click", () => open(i))
   );
-  btnClose.addEventListener("click", close);
-  btnPrev.addEventListener("click", () => show(current - 1));
-  btnNext.addEventListener("click", () => show(current + 1));
+
+  // Ảnh hero + chân dung hai họ: click (hoặc Enter/Space) để xem full ảnh (1 ảnh lẻ)
+  document.querySelectorAll("[data-zoomable]").forEach((el) => {
+    const img = el.tagName === "IMG" ? el : el.querySelector("img");
+    if (!img) return;
+    el.style.cursor = "zoom-in";
+    const trigger = () => openSingle(img.currentSrc || img.src, img.alt);
+    el.addEventListener("click", trigger);
+    el.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        trigger();
+      }
+    });
+  });
+
+  if (btnClose) btnClose.addEventListener("click", close);
+  if (btnPrev) btnPrev.addEventListener("click", () => !single && show(current - 1));
+  if (btnNext) btnNext.addEventListener("click", () => !single && show(current + 1));
   lightbox.addEventListener("click", (e) => {
     if (e.target === lightbox) close();
   });
@@ -796,6 +839,7 @@ function initLightbox() {
   document.addEventListener("keydown", (e) => {
     if (!lightbox.classList.contains("is-open")) return;
     if (e.key === "Escape") close();
+    if (single) return;
     if (e.key === "ArrowLeft") show(current - 1);
     if (e.key === "ArrowRight") show(current + 1);
   });
@@ -810,6 +854,7 @@ function initLightbox() {
   lightbox.addEventListener(
     "touchend",
     (e) => {
+      if (single) return;
       const dx = e.changedTouches[0].clientX - startX;
       if (Math.abs(dx) > 50) show(dx > 0 ? current - 1 : current + 1);
     },
