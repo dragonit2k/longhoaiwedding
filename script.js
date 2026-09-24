@@ -25,7 +25,7 @@ const weddingConfig = {
       photo: "assets/CR.png",
       father: "Ông Đặng Văn Khiêm",
       mother: "Bà Nguyễn Thị Hiền",
-      address: "Thôn Ngọc Đỉnh, Xã Hoằng Hóa, Tỉnh Thanh Hóa",
+      address: "Ngọc Đỉnh, Hoằng Hóa, Thanh Hóa",
       phone: "0347730837",
     },
     bride: {
@@ -35,7 +35,7 @@ const weddingConfig = {
       photo: "assets/CD.png",
       father: "Ông Lê Hồng Phú",
       mother: "Bà Bùi Thị Hiên",
-      address: "Thôn Eo Bàn, Xã Ngọc Trạo, Tỉnh Thanh Hóa",
+      address: "Eo Bàn, Ngọc Trạo, Thanh Hóa",
       phone: "0352088635",
     },
   },
@@ -68,7 +68,7 @@ const weddingConfig = {
       time: "15:00",
       title: "Lễ Nạp Tài",
       venue: "Tư gia nhà gái",
-      address: "Thôn Eo Bàn, Xã Ngọc Trạo, Tỉnh Thanh Hóa",
+      address: "Eo Bàn, Ngọc Trạo, Thanh Hóa",
       mapUrl: "https://maps.app.goo.gl/5ycScWKWtn7CqyGG6",
     },
     {
@@ -77,30 +77,30 @@ const weddingConfig = {
       time: "17:00",
       title: "Thánh Lễ Hôn Phối",
       venue: "Nhà thờ giáo xứ Du Nghì",
-      address: "Thôn Eo Bàn, Xã Ngọc Trạo, Tỉnh Thanh Hóa",
+      address: "Eo Bàn, Ngọc Trạo, Thanh Hóa",
       mapUrl: "https://maps.app.goo.gl/EpakwsPEQf3Zt3jv8",
     },
+    // {
+    //   date: "2026-10-10",
+    //   lunar: "Ngày 1 tháng 9 năm Bính Ngọ",
+    //   time: "11:00",
+    //   title: "Tiệc Mừng Tân Hôn",
+    //   venue: "Tư gia nhà gái",
+    //   address: "Thôn Eo Bàn, Xã Ngọc Trạo, Tỉnh Thanh Hóa",
+    //   mapUrl: "https://maps.app.goo.gl/5ycScWKWtn7CqyGG6",
+    //   highlight: true,
+    //   badge: "Tiệc tại gia · Nhà Gái",
+    //   // reception: true -> chuyển sang khu "Tiệc Mừng Tân Hôn" riêng, ẩn khỏi lịch trình chung
+    //   reception: true,
+    //   receptionSide: "Nhà Gái",
+    // },
     {
-      date: "2026-10-10",
-      lunar: "Ngày 1 tháng 9 năm Bính Ngọ",
+      date: "2026-10-11",
+      lunar: "Ngày 2 tháng 9 năm Bính Ngọ",
       time: "11:00",
       title: "Tiệc Mừng Tân Hôn",
-      venue: "Tư gia nhà gái",
-      address: "Thôn Eo Bàn, Xã Ngọc Trạo, Tỉnh Thanh Hóa",
-      mapUrl: "https://maps.app.goo.gl/5ycScWKWtn7CqyGG6",
-      highlight: true,
-      badge: "Tiệc tại gia · Nhà Gái",
-      // reception: true -> chuyển sang khu "Tiệc Mừng Tân Hôn" riêng, ẩn khỏi lịch trình chung
-      reception: true,
-      receptionSide: "Nhà Gái",
-    },
-    {
-      date: "2026-10-10",
-      lunar: "Ngày 1 tháng 9 năm Bính Ngọ",
-      time: "19:30",
-      title: "Tiệc Mừng Tân Hôn",
       venue: "Tư gia nhà trai",
-      address: "Thôn Ngọc Đỉnh, Xã Hoằng Hóa, Tỉnh Thanh Hóa",
+      address: "Ngọc Đỉnh, Hoằng Hóa, Thanh Hóa",
       mapUrl: "https://maps.app.goo.gl/bsy9gxdggjhfZ4o37",
       highlight: true,
       badge: "Tiệc tại gia · Nhà Trai",
@@ -110,10 +110,10 @@ const weddingConfig = {
     {
       date: "2026-10-11",
       lunar: "Ngày 2 tháng 9 năm Bính Ngọ",
-      time: "11:00",
+      time: "10:30",
       title: "Lễ Thành Hôn · Đón Dâu",
       venue: "Tư gia nhà trai",
-      address: "Thôn Ngọc Đỉnh, Xã Hoằng Hóa, Tỉnh Thanh Hóa",
+      address: "Ngọc Đỉnh, Hoằng Hóa, Thanh Hóa",
       mapUrl: "https://maps.app.goo.gl/bsy9gxdggjhfZ4o37",
       // feature: true -> thẻ nổi bật kiểu "hero" (banner OUR WEDDING + tên cô dâu chú rể + hình minh hoạ)
       feature: true,
@@ -296,26 +296,48 @@ function renderCouple(fam) {
   const wrap = document.getElementById("couple");
   if (!wrap || !fam) return;
 
-  // Cột từng bên: ảnh cổng vòm (arch) + tên bố mẹ, địa chỉ ngay bên dưới
-  // side: "groom" -> cắt lấy nửa trái ảnh chung | "bride" -> nửa phải
-  const column = (f, sideKey) => `
-    <div class="couple__col">
-      <figure class="couple__arch couple__arch--${sideKey}">
-        <img src="${escapeAttr(f.photo || "")}" alt="Ảnh ${escapeAttr(f.side || "")}"
-             loading="lazy" decoding="async" />
-      </figure>
-      <p class="couple__side">${escapeHtml(f.side || "")}</p>
-      <p class="couple__parent">${escapeHtml(f.father || "")}</p>
-      <p class="couple__parent">${escapeHtml(f.mother || "")}</p>
-      <p class="couple__addr">${escapeHtml(f.address || "")}</p>
+  // Icon ghim vị trí (line-art) đứng trước địa chỉ
+  const PIN_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>`;
+
+  // Cột từng bên: khung ảnh vòm mạ vàng + nhãn vai trò + tên riêng + bố mẹ + địa chỉ
+  const house = (f) => `
+    <div class="house">
+      <div class="house__frame">
+        <div class="house__arch">
+          <img src="${escapeAttr(f.photo || "")}" alt="Ảnh ${escapeAttr(f.role || f.side || "")}"
+               loading="lazy" decoding="async" />
+        </div>
+        ${f.role ? `<span class="house__role">${escapeHtml(f.role)}</span>` : ""}
+      </div>
+      ${f.name ? `<p class="house__name">${escapeHtml(f.name)}</p>` : ""}
+      ${f.side ? `<p class="house__side">${escapeHtml(f.side)}</p>` : ""}
+      <div class="house__parents">
+        ${f.father ? `<p class="house__parent">${escapeHtml(f.father)}</p>` : ""}
+        ${f.mother ? `<p class="house__parent">${escapeHtml(f.mother)}</p>` : ""}
+      </div>
+      ${f.address ? `<p class="house__addr">${PIN_SVG}${escapeHtml(f.address)}</p>` : ""}
+    </div>`;
+
+  // Huy hiệu trái tim mạ vàng nối hai họ ở giữa
+  const link = `
+    <div class="houses__link" aria-hidden="true">
+      <div class="houses__medallion">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-6.5-4.35-9.2-8.5C1 9.5 2.4 6 5.7 6c1.9 0 3.3 1.1 4.1 2.3l.9 1.3.9-1.3C12.9 7.1 14.3 6 16.3 6c3.3 0 4.7 3.5 2.9 6.5C18.5 16.65 12 21 12 21Z"/></svg>
+      </div>
     </div>`;
 
   // Chú rể bên trái, cô dâu bên phải (theo truyền thống)
   wrap.innerHTML = `
-    <div class="couple__gallery reveal">
-      <span class="couple__accent" aria-hidden="true"></span>
-      ${column(fam.groom, "groom")}
-      ${column(fam.bride, "bride")}
+    <div class="houses reveal">
+      <div class="houses__intro">
+        <p class="houses__kicker">Se duyên kết tóc</p>
+        <p class="houses__lead">Hai gia đình trân trọng báo tin vui</p>
+      </div>
+      <div class="houses__grid">
+        ${house(fam.groom)}
+        ${link}
+        ${house(fam.bride)}
+      </div>
     </div>`;
 }
 
@@ -352,7 +374,7 @@ function buildFeatureHeader() {
 /* ---------- Thẻ mời dùng chung (Thư mời + Tiệc tân hôn) ----------
    Bố cục: [feature] tiêu đề → giờ → hộp ngày 3 ô (thứ · ngày · tháng-năm)
            → âm lịch → khung địa điểm (nhãn + nơi tổ chức + địa chỉ) → nút bản đồ */
-function buildInviteCard(ev, { title, highlight } = {}) {
+function buildInviteCard(ev, { title, highlight, red } = {}) {
   const dd = formatDMY(ev.date);
   const cardTitle = title || ev.title || "";
   const mapBtn = ev.mapUrl
@@ -362,7 +384,7 @@ function buildInviteCard(ev, { title, highlight } = {}) {
 
   // Thẻ nổi bật (feature): banner "OUR WEDDING" + tên cô dâu/chú rể + hình minh hoạ
   const feature = ev.feature ? buildFeatureHeader() : "";
-  const cls = `invite-card reveal${highlight ? " invite-card--highlight" : ""}${ev.feature ? " invite-card--feature" : ""}`;
+  const cls = `invite-card reveal${highlight ? " invite-card--highlight" : ""}${ev.feature ? " invite-card--feature" : ""}${red ? " invite-card--red" : ""}`;
 
   return `
     <article class="${cls}">
@@ -387,30 +409,161 @@ function buildInviteCard(ev, { title, highlight } = {}) {
     </article>`;
 }
 
-/* ---------- Render khu "Tiệc Mừng Tân Hôn" riêng ---------- */
+/* ---------- Render box đỏ "Thư mời cưới": lời mời + tên khách + tiệc mừng tân hôn ---------- */
 function renderReception(items) {
   const wrap = document.getElementById("receptionGrid");
   if (!wrap || !Array.isArray(items)) return;
 
-  wrap.innerHTML = items
-    .map((ev) => {
-      // Ghép "Tiệc Thân Mật" + bên (Nhà Trai/Nhà Gái) làm tiêu đề thẻ
-      const title = ev.receptionSide
-        ? `${ev.title || ""} ${ev.receptionSide}`.trim()
-        : ev.title;
-      return buildInviteCard(ev, { title, highlight: true });
-    })
-    .join("");
+  const c = weddingConfig;
+  const guest = getGuestName() || "Quý Khách";
+  const ev = items[0]; // mốc "Tiệc Mừng Tân Hôn" (reception: true)
+
+  // Khối thông tin tiệc (giờ · ngày · âm lịch · địa điểm · bản đồ) — gộp trong box đỏ
+  let party = "";
+  if (ev) {
+    const dd = formatDMY(ev.date);
+    const title = ev.title || "";
+    const mapBtn = ev.mapUrl
+      ? `<a class="invite-hero__map" href="${escapeAttr(ev.mapUrl)}" target="_blank" rel="noopener noreferrer">Xem bản đồ</a>`
+      : "";
+    party = `
+      <div class="invite-hero__sep"><span></span><em>Tiệc mừng tân hôn</em><span></span></div>
+      <h3 class="invite-hero__event-title">${escapeHtml(title)}</h3>
+      ${ev.time ? `<p class="invite-hero__time">Vào Lúc ${escapeHtml(ev.time)}</p>` : ""}
+      <div class="invite-hero__date">
+        <span class="invite-hero__dow">${escapeHtml(dd.dow)}</span>
+        <span class="invite-hero__day">${escapeHtml(dd.day)}</span>
+        <span class="invite-hero__my">${escapeHtml(dd.monthYear)}</span>
+      </div>
+      ${ev.lunar ? `<p class="invite-hero__lunar">(Tức ${escapeHtml(ev.lunar)})</p>` : ""}
+      <div class="invite-hero__place">
+        <p class="invite-hero__place-label">Địa điểm tổ chức</p>
+        ${ev.venue ? `<p class="invite-hero__venue">${escapeHtml(ev.venue)}</p>` : ""}
+        ${ev.address ? `<p class="invite-hero__addr">${escapeHtml(ev.address)}</p>` : ""}
+        ${mapBtn}
+      </div>`;
+  }
+
+  wrap.innerHTML = `
+    <div class="invite-hero">
+      <span class="invite-hero__petal p1" aria-hidden="true"></span>
+      <span class="invite-hero__petal p2" aria-hidden="true"></span>
+      <span class="invite-hero__petal p3" aria-hidden="true"></span>
+      <span class="invite-hero__petal p4" aria-hidden="true"></span>
+      <div class="invite-hero__inner">
+        <p class="invite-hero__eyebrow">Trân trọng kính mời</p>
+        <p class="invite-hero__guest" data-guest-name>${escapeHtml(guest)}</p>
+        <div class="invite-hero__divider" aria-hidden="true"><span></span><span class="invite-hero__heart">&#10084;</span><span></span></div>
+        <p class="invite-hero__lead">Đến chung vui cùng gia đình chúng tôi</p>
+        <p class="invite-hero__note">trong tiệc mừng tân hôn của hai con. Sự hiện diện của quý khách là niềm vinh hạnh cho gia đình chúng tôi.</p>
+        <p class="invite-hero__couple">${escapeHtml(c.groom || "")} &amp; ${escapeHtml(c.bride || "")}</p>
+        ${party}
+      </div>
+    </div>`;
 }
 
-/* ---------- Render lịch trình sự kiện ---------- */
+/* ---------- Render "Diễn biến các lễ": thẻ card nối bằng trục dọc ---------- */
 function renderEvents(events) {
   const wrap = document.getElementById("eventsGrid");
   if (!wrap || !Array.isArray(events)) return;
 
-  wrap.innerHTML = events
-    .map((ev) => buildInviteCard(ev, { highlight: ev.highlight }))
+  const head = document.getElementById("ceremonyHead");
+  if (!events.length) {
+    wrap.innerHTML = "";
+    if (head) head.hidden = true;
+    return;
+  }
+  if (head) head.hidden = false;
+
+  const cards = events
+    .map((ev, i) => {
+      const highlight = ev.feature ? false : ev.highlight; // thẻ feature dùng nền đỏ riêng
+      const card = buildInviteCard(ev, { highlight, red: ev.feature });
+      return `
+        <div class="schedule__item">
+          <span class="schedule__node">${i + 1}</span>
+          ${card}
+        </div>`;
+    })
     .join("");
+
+  wrap.innerHTML = `
+    <div class="schedule">
+      <span class="schedule__rail" aria-hidden="true"></span>
+      <span class="schedule__spark" aria-hidden="true"></span>
+      ${cards}
+    </div>`;
+
+  initScheduleRail();
+}
+
+/* ---------- Trục dọc "Diễn biến các lễ" tự vẽ theo scroll ---------- */
+function initScheduleRail() {
+  const schedule = document.querySelector("#eventsGrid .schedule");
+  if (!schedule) return;
+
+  const rail = schedule.querySelector(".schedule__rail");
+  const items = Array.prototype.slice.call(schedule.querySelectorAll(".schedule__item"));
+
+  // Reduced motion: hiện đầy đủ, không animate
+  if (prefersReducedMotion) {
+    schedule.style.setProperty("--progress", "1");
+    items.forEach((it) => it.classList.add("is-in", "is-active"));
+    return;
+  }
+
+  // Reveal từng thẻ khi lọt vào viewport (stagger tự nhiên)
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("is-in");
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.25 }
+    );
+    items.forEach((it) => io.observe(it));
+  } else {
+    items.forEach((it) => it.classList.add("is-in"));
+  }
+
+  const update = () => {
+    const rect = schedule.getBoundingClientRect();
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    const start = vh * 0.75;
+    const total = rect.height + start * 0.4;
+    const passed = start - rect.top;
+    const p = Math.max(0, Math.min(1, passed / total));
+    schedule.style.setProperty("--progress", p.toFixed(4));
+    if (rail) schedule.style.setProperty("--rail-h", rail.offsetHeight + "px");
+    schedule.style.setProperty("--spark-op", p > 0.02 && p < 0.99 ? "1" : "0");
+
+    if (rail) {
+      const drawnY = rail.getBoundingClientRect().top + rail.offsetHeight * p;
+      items.forEach((it) => {
+        const node = it.querySelector(".schedule__node");
+        if (!node) return;
+        const ny = node.getBoundingClientRect().top + node.offsetHeight / 2;
+        it.classList.toggle("is-active", drawnY >= ny);
+      });
+    }
+  };
+
+  let ticking = false;
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      update();
+      ticking = false;
+    });
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  update();
 }
 
 /* =========================================================

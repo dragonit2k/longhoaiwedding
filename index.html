@@ -106,28 +106,30 @@ Lâu lắm rồi không gặp, <br>
       <section class="couple section" id="coupleSection">
         <header class="section__head reveal">
           <h2 class="display">Hai Họ</h2>
+          <div class="ceremony__title-underline" aria-hidden="true"></div>
+
           <!-- <h2 class="display" data-couple>Chú rể  &amp;  Cô dâu</h2> -->
         </header>
         <div class="couple__grid" id="couple"><!-- render từ script.js --></div>
       </section>
 
-       <!-- ===== 06 · Tiệc Mừng Tân Hôn ===== -->
+       <!-- ===== 06 · Thư Mời Cưới (box đỏ gộp lời mời + tiệc mừng tân hôn) ===== -->
       <section class="reception section" id="reception">
         <header class="section__head reveal">
-          <!-- <span class="pill">Thư mời cưới</span> -->
           <h2 class="display">Thư mời cưới</h2>
+          <div class="ceremony__title-underline" aria-hidden="true"></div>
         </header>
-        <div class="reception__invite reveal">
-          <p class="reception__lead">Trân trọng kính mời</p>
-          <p class="reception__guest" data-guest-name>Quý Khách</p>
-          <div class="divider" aria-hidden="true"></div>
-          <p class="reception__note">
-            Đến chung vui cùng gia đình chúng tôi trong tiệc mừng tân hôn của hai con.
-          </p>
-        </div>
-        <div class="reception__grid" id="receptionGrid"><!-- render từ script.js --></div>
 
-        <div class="events" id="eventsGrid" style="margin-top: 2rem;"><!-- render từ script.js --></div>
+        <!-- Box đỏ nổi bật: lời mời + tên khách + thông tin tiệc mừng tân hôn (render từ script.js) -->
+        <div class="reception__grid reveal" id="receptionGrid"><!-- render từ script.js --></div>
+
+        <!-- Diễn biến các lễ: các lễ khác nối bằng trục dọc tự vẽ theo scroll -->
+        <div class="ceremony__head reveal" id="ceremonyHead" hidden>
+          <p class="ceremony__eyebrow">Lịch trình</p>
+          <h3 class="display">Diễn biến các lễ</h3>
+          <div class="ceremony__title-underline" aria-hidden="true"></div>
+        </div>
+        <div class="events" id="eventsGrid"><!-- render từ script.js --></div>
 
       </section>
 
@@ -135,6 +137,7 @@ Lâu lắm rồi không gặp, <br>
       <section class="countdown section" id="countdown">
         <header class="section__head reveal">
           <h2 class="display">Đến ngày trọng đại</h2>
+          <div class="ceremony__title-underline" aria-hidden="true"></div>
         </header>
         <div class="countdown__grid" id="countdownGrid" role="timer" aria-live="off">
           <div class="countdown__unit"><span class="countdown__num" data-cd="days">--</span><span class="countdown__lbl">Ngày</span></div>
@@ -151,6 +154,7 @@ Lâu lắm rồi không gặp, <br>
       <section class="gallery section" id="gallery">
         <header class="section__head reveal">
           <h2 class="display">Câu chuyện chúng mình</h2>
+          <div class="ceremony__title-underline" aria-hidden="true"></div>
         </header>
         <div class="gallery__story" id="galleryGrid">
           <p class="gallery__quote reveal">

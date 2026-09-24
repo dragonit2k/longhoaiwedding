@@ -14,6 +14,9 @@
   --maroon: #7a0d16;
   --maroon-dk: #5c0a11;
   --champagne: #e6ddcd;
+  --gold: #d9b871;
+  --gold-soft: #c9a35a;
+  --gold-deep: #b8923f;
   --ink: #1c1a18;
   --ink-soft: #4a4640;
   --muted: #8a8378;
@@ -220,7 +223,7 @@ button { font-family: inherit; cursor: pointer; }
   color: var(--maroon);
 }
 .hero__name { font-size: clamp(2.6rem, 15vw, 3.6rem); line-height: 1; }
-.hero__amp { font-size: clamp(1.6rem, 8vw, 2.2rem); color: var(--ink-soft); }
+.hero__amp { font-size: clamp(1.6rem, 8vw, 2.2rem); color: var(--maroon); }
 .hero__date {
   font-family: var(--serif); font-size: 1.1rem; letter-spacing: 0.24em;
   font-weight: 500; color: var(--ink); margin: 0;
@@ -242,39 +245,77 @@ button { font-family: inherit; cursor: pointer; }
 .opening__sign { font-family: var(--script); font-size: 1.7rem; color: var(--maroon); margin: 0; }
 
 /* =========================================================
-   03 · Couple (Chú Rể & Cô Dâu)
+   03 · Hai Họ — editorial, khung ảnh vòm mạ vàng + huy hiệu nối giữa
    ========================================================= */
 .couple__grid { display: block; }
 
-/* -- Gallery ảnh đôi dạng cổng vòm, nền trắng, khung viền mảnh -- */
-.couple__gallery {
-  position: relative;
-  display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem;
-  background: #fff;
-  border: 1px solid var(--line-soft);
-  padding: 2.6rem 1.4rem 1.6rem;
-  margin: 0 auto 2rem;
+.houses {
+  position: relative; overflow: hidden; border-radius: 16px; margin: 0 auto 2rem;
+  background: radial-gradient(140% 100% at 50% 0%, #fffdfb 0%, #fbf6ef 55%, #f6eee1 100%);
+  border: 1px solid rgba(217, 184, 113, 0.4);
+  padding: clamp(2.6rem, 7vw, 3.2rem) clamp(1.3rem, 5vw, 2rem) clamp(1.8rem, 5vw, 2.2rem);
+  box-shadow: 0 26px 56px -36px rgba(92, 10, 17, 0.35), inset 0 0 0 1px rgba(255, 255, 255, 0.6);
 }
-/* Khối chữ nhật đỏ đô nghiêng nhẹ — điểm nhấn góc trên */
-.couple__accent {
-  position: absolute; top: -20px; left: 50%;
-  width: 46px; height: 104px;
-  background: var(--maroon);
-  transform: translateX(-50%) rotate(-9deg);
-  z-index: 2;
-}
-/* -- Cột từng bên: ảnh + thông tin ngay dưới -- */
-.couple__col { text-align: center; }
-.couple__arch {
-  margin: 0 0 0.9rem; overflow: hidden;
-  border-radius: 140px 140px 8px 8px;   /* vòm trên, bo nhẹ dưới */
-  aspect-ratio: 3 / 4;
-  background: var(--cream);
-}
+/* Viền vàng mảnh trang trí bên trong */
+.houses::before { content: ""; position: absolute; inset: 10px; border-radius: 11px; border: 1px solid rgba(217, 184, 113, 0.35); pointer-events: none; }
 
-.couple__side { font-family: var(--serif); font-style: italic; font-size: 0.82rem; color: var(--maroon); margin: 0 0 0.5rem; }
-.couple__parent { margin: 0.12rem 0; font-size: 0.8rem; color: var(--ink); line-height: 1.45; font-weight: 500; }
-.couple__addr { font-size: 0.68rem; color: var(--muted); margin: 0.5rem auto 0; max-width: 24ch; line-height: 1.5; }
+/* Câu dẫn phía trên */
+.houses__intro { text-align: center; margin-bottom: clamp(1.6rem, 5vw, 2rem); position: relative; }
+.houses__kicker { font-family: var(--sans); font-size: 0.6rem; letter-spacing: 0.34em; text-transform: uppercase; color: var(--gold-deep); margin: 0 0 0.5rem; }
+.houses__lead { font-family: var(--serif-alt); font-style: italic; font-size: clamp(1rem, 4.4vw, 1.2rem); color: var(--ink-soft); margin: 0; }
+
+/* Lưới 2 cột + huy hiệu ở giữa */
+.houses__grid { display: grid; grid-template-columns: 1fr auto 1fr; align-items: start; gap: clamp(0.5rem, 2.5vw, 1rem); position: relative; }
+
+/* --- Cột từng bên --- */
+.house { text-align: center; position: relative; }
+.house__frame { position: relative; margin: 0 auto 0.95rem; width: 100%; max-width: 150px; aspect-ratio: 3 / 4; }
+/* Khung ảnh vòm mạ vàng */
+.house__arch { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: 120px 120px 10px 10px; background: var(--cream); box-shadow: 0 14px 30px -18px rgba(92, 10, 17, 0.4); }
+.house__arch img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.8s var(--ease); }
+.house:hover .house__arch img { transform: scale(1.06); }
+/* Đường viền vàng đôi ôm theo vòm */
+.house__frame::before { content: ""; position: absolute; inset: -6px; border-radius: 126px 126px 14px 14px; border: 1.5px solid var(--gold); opacity: 0.85; pointer-events: none; }
+.house__frame::after { content: ""; position: absolute; inset: -11px; border-radius: 132px 132px 18px 18px; border: 1px solid rgba(217, 184, 113, 0.4); pointer-events: none; }
+/* Huy hiệu vai trò (Chú Rể / Cô Dâu) chồng lên đáy ảnh */
+.house__role { position: absolute; left: 50%; bottom: -13px; transform: translateX(-50%); font-family: var(--sans); font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: #fff; background: var(--maroon); padding: 0.32rem 0.85rem; border-radius: 999px; white-space: nowrap; box-shadow: 0 6px 14px -6px rgba(92, 10, 17, 0.6); border: 1px solid var(--gold); z-index: 3; }
+
+.house__name { font-family: var(--script); font-size: clamp(1.6rem, 6vw, 2.1rem); line-height: 1.15; color: var(--maroon); margin: 1.1rem 0 0.1rem; min-height: 1.15em; }
+.house__side { font-family: var(--sans); font-size: 0.56rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold-deep); margin: 0 0 0.8rem; }
+.house__parents { margin: 0 0 0.5rem; }
+.house__parent { font-family: var(--serif-alt); font-size: 0.95rem; color: var(--ink); line-height: 1.55; margin: 0.1rem 0; font-weight: 500; }
+.house__addr { display: flex; align-items: flex-start; justify-content: center; gap: 0.3rem; font-size: 0.72rem; color: var(--muted); margin: 0.5rem auto 0; max-width: 22ch; line-height: 1.5; }
+.house__addr svg { width: 11px; height: 11px; flex: none; margin-top: 2px; color: var(--gold-deep); }
+
+/* --- Huy hiệu nối giữa hai họ --- */
+.houses__link { align-self: stretch; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: clamp(2.6rem, 10vw, 3.4rem); position: relative; }
+.houses__medallion { width: clamp(42px, 12vw, 52px); height: clamp(42px, 12vw, 52px); border-radius: 50%; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at 35% 30%, #fff6e6, var(--gold) 70%, var(--gold-deep)); box-shadow: 0 8px 20px -8px rgba(184, 146, 63, 0.8), inset 0 0 0 1px rgba(255, 255, 255, 0.5); position: relative; z-index: 2; }
+.houses__medallion svg { width: 52%; height: 52%; color: var(--maroon); }
+/* Vòng nét đứt xoay nhẹ quanh huy hiệu */
+.houses__medallion::before { content: ""; position: absolute; inset: -7px; border-radius: 50%; border: 1px dashed rgba(217, 184, 113, 0.7); animation: houseRingSpin 18s linear infinite; }
+@keyframes houseRingSpin { to { transform: rotate(360deg); } }
+/* Đường dọc nối xuống nhẹ */
+.houses__link::after { content: ""; position: absolute; top: calc(clamp(2.6rem, 10vw, 3.4rem) + clamp(42px, 12vw, 52px) + 8px); bottom: 8px; width: 1px; background: linear-gradient(180deg, rgba(217, 184, 113, 0.6), transparent); }
+
+/* Mobile: tránh cột bị bóp hẹp, tên xuống dòng lệch chiều cao hai bên */
+@media (max-width: 480px) {
+  .houses { padding: clamp(2.2rem, 7vw, 2.8rem) 0.9rem 1.6rem; }
+  .houses__grid { gap: 0.3rem; }
+  .house__frame { max-width: 128px; }
+  .house__name { font-size: clamp(1.5rem, 7vw, 1.8rem); }
+  .house__parent { font-size: 0.86rem; }
+  .house__addr { max-width: 18ch; font-size: 0.7rem; }
+  /* Huy hiệu giữa nhỏ lại + đẩy lên ngang tầm ảnh */
+  .houses__link { padding-top: clamp(2rem, 9vw, 2.8rem); }
+}
+@media (max-width: 360px) {
+  .house__frame { max-width: 110px; }
+  .house__addr { max-width: 15ch; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .houses__medallion::before { animation: none; }
+  .house:hover .house__arch img { transform: none; }
+}
 
 /* =========================================================
    04 · Countdown
@@ -355,7 +396,9 @@ button { font-family: inherit; cursor: pointer; }
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
 }
+.invite-card:hover { transform: translateY(-3px); box-shadow: 0 22px 44px -28px rgba(92, 10, 17, 0.4); }
 .invite-card--highlight {
   border-color: rgba(122, 13, 22, 0.25);
   background-image:
@@ -457,18 +500,159 @@ button { font-family: inherit; cursor: pointer; }
 .invite-card--feature .invite-card__title { margin-top: 0.2rem; }
 
 /* =========================================================
-   06 · Reception intro (khối lời mời riêng phía trên các thẻ)
+   06 · Thư mời cưới — 1 box nền đỏ gộp lời mời + tiệc mừng tân hôn
    ========================================================= */
-.reception__invite {
-  margin: 0 auto clamp(1.8rem, 5vw, 2.4rem); text-align: center;
-  background: var(--paper); border: 1px solid var(--line);
-  padding: clamp(1.8rem, 5vw, 2.4rem) clamp(1.4rem, 4vw, 1.9rem); position: relative;
-  box-shadow: 0 18px 44px -32px rgba(40, 30, 20, 0.4); border-radius: 6px;
+.invite-hero {
+  position: relative; overflow: hidden; text-align: center; border-radius: 14px;
+  padding: clamp(2.4rem, 8vw, 3.2rem) clamp(1.6rem, 6vw, 2.4rem);
+  color: #fff5ee;
+  background:
+    radial-gradient(120% 90% at 50% -10%, rgba(217, 184, 113, 0.28), transparent 60%),
+    linear-gradient(160deg, #8f1520 0%, #7a0d16 45%, #5c0a11 100%);
+  box-shadow: 0 30px 60px -32px rgba(92, 10, 17, 0.75), inset 0 0 0 1px rgba(217, 184, 113, 0.35);
 }
-.reception__invite::before { content: ""; position: absolute; inset: 9px; border: 1px solid var(--line-soft); pointer-events: none; border-radius: 3px; }
-.reception__lead { font-family: var(--sans); font-size: 0.66rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--maroon); margin: 0 0 0.8rem; }
-.reception__guest { font-family: var(--script); font-size: clamp(2rem, 10vw, 2.6rem); margin: 0; line-height: 1.15; color: var(--ink); word-break: break-word; }
-.reception__note { font-size: 0.9rem; color: var(--ink-soft); max-width: 36ch; margin: 0 auto; line-height: 1.8; }
+/* Viền vàng đôi bên trong */
+.invite-hero::before {
+  content: ""; position: absolute; inset: 12px; border-radius: 9px;
+  border: 1px solid rgba(217, 184, 113, 0.45); pointer-events: none;
+}
+/* Ánh sáng quét ngang trang trí */
+.invite-hero::after {
+  content: ""; position: absolute; top: -40%; left: -30%; width: 60%; height: 180%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+  transform: rotate(18deg); animation: heroSheen 6.5s var(--ease) infinite; pointer-events: none;
+}
+@keyframes heroSheen {
+  0% { transform: translateX(-60%) rotate(18deg); }
+  55%, 100% { transform: translateX(320%) rotate(18deg); }
+}
+.invite-hero__inner { position: relative; z-index: 2; }
+.invite-hero__eyebrow { font-family: var(--sans); font-size: 0.66rem; letter-spacing: 0.34em; text-transform: uppercase; color: var(--gold); margin: 0 0 1.1rem; }
+.invite-hero__lead { font-family: var(--serif-alt); font-style: italic; font-size: clamp(1rem, 4.4vw, 1.2rem); letter-spacing: 0.04em; color: #f3e6d8; margin: 0 0 0.5rem; }
+.invite-hero__guest { font-family: var(--script); font-size: clamp(2.6rem, 13vw, 3.6rem); line-height: 1.1; color: #fff; margin: 0.1rem 0 0.3rem; text-shadow: 0 2px 18px rgba(0, 0, 0, 0.25); word-break: break-word; }
+.invite-hero__divider { display: flex; align-items: center; justify-content: center; gap: 0.7rem; margin: 1.1rem 0 1.2rem; }
+.invite-hero__divider span { height: 1px; width: 46px; background: linear-gradient(90deg, transparent, var(--gold)); }
+.invite-hero__divider span:last-child { background: linear-gradient(90deg, var(--gold), transparent); }
+.invite-hero__heart { color: var(--gold); font-size: 1rem; }
+.invite-hero__note { font-family: var(--serif-alt); font-size: clamp(1rem, 4.2vw, 1.12rem); line-height: 1.85; color: #f4e8db; max-width: 34ch; margin: 0 auto; }
+.invite-hero__couple { margin-top: 1.4rem; font-family: var(--script); font-size: clamp(1.5rem, 7vw, 2rem); color: var(--gold); }
+
+/* Cánh hoa/đốm sáng trang trí bay lơ lửng */
+.invite-hero__petal { position: absolute; z-index: 1; border-radius: 50% 0 50% 0; opacity: 0.5;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 224, 196, 0.9), rgba(217, 184, 113, 0.4));
+  animation: heroFloaty 7s ease-in-out infinite; }
+.invite-hero__petal.p1 { width: 14px; height: 14px; top: 16%; left: 10%; animation-delay: 0.2s; }
+.invite-hero__petal.p2 { width: 9px; height: 9px; top: 60%; left: 14%; animation-delay: 1.4s; }
+.invite-hero__petal.p3 { width: 12px; height: 12px; top: 24%; right: 12%; animation-delay: 0.8s; }
+.invite-hero__petal.p4 { width: 8px; height: 8px; top: 70%; right: 16%; animation-delay: 2.1s; }
+@keyframes heroFloaty {
+  0%, 100% { transform: translateY(0) rotate(0); opacity: 0.35; }
+  50% { transform: translateY(-14px) rotate(25deg); opacity: 0.7; }
+}
+
+/* Thông tin Tiệc Mừng Tân Hôn gộp trong box đỏ */
+.invite-hero__sep { display: flex; align-items: center; justify-content: center; gap: 0.8rem; margin: 1.6rem auto 1.3rem; max-width: 80%; }
+.invite-hero__sep span { height: 1px; flex: 1; background: linear-gradient(90deg, transparent, rgba(217, 184, 113, 0.6), transparent); }
+.invite-hero__sep em { font-family: var(--sans); font-style: normal; font-size: 0.6rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); white-space: nowrap; }
+.invite-hero__event-title { font-family: var(--serif); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; font-size: clamp(1.05rem, 4.6vw, 1.3rem); color: var(--gold); margin: 0 0 0.3rem; }
+.invite-hero__time { font-size: 0.9rem; font-weight: 600; color: #f3e6d8; margin: 0; }
+.invite-hero__date { display: inline-flex; align-items: center; justify-content: center; gap: clamp(0.7rem, 3vw, 1.1rem); margin: 0.7rem 0 0.2rem; }
+.invite-hero__dow, .invite-hero__my { font-size: 0.9rem; letter-spacing: 0.12em; text-transform: uppercase; color: #f0e2d4; white-space: nowrap; position: relative; padding: 0 clamp(0.7rem, 3vw, 1.1rem); font-weight: 600; }
+.invite-hero__dow::after, .invite-hero__my::before { content: ""; position: absolute; top: 50%; transform: translateY(-50%); height: 1.7rem; width: 1px; background: rgba(217, 184, 113, 0.45); }
+.invite-hero__dow::after { right: 0; }
+.invite-hero__my::before { left: 0; }
+.invite-hero__day { font-family: var(--serif); font-weight: 600; font-size: clamp(2.2rem, 11vw, 2.8rem); color: #fff; text-shadow: 0 2px 14px rgba(0, 0, 0, 0.3); }
+.invite-hero__lunar { font-style: italic; font-size: 0.8rem; color: #e9d9c8; margin: 0.2rem 0 1.1rem; }
+.invite-hero__place { border: 1px solid rgba(217, 184, 113, 0.5); border-radius: 8px; padding: clamp(1rem, 4vw, 1.3rem) clamp(0.9rem, 3vw, 1.2rem); margin: 0 auto; max-width: 340px; background: rgba(0, 0, 0, 0.08); }
+.invite-hero__place-label { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin: 0 0 0.5rem; }
+.invite-hero__venue { font-family: var(--serif); font-weight: 600; font-size: clamp(1.05rem, 4.4vw, 1.25rem); text-transform: uppercase; letter-spacing: 0.04em; color: #fff; margin: 0 0 0.6rem; }
+.invite-hero__addr { font-size: 0.86rem; color: #f2e6d9; line-height: 1.7; margin: 0 auto; max-width: 32ch; }
+.invite-hero__map { display: inline-block; margin-top: 1rem; font-family: var(--sans); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--maroon-dk); background: var(--gold); border-radius: 999px; padding: 0.55rem 1.4rem; text-decoration: none; font-weight: 600; transition: background 0.25s var(--ease), transform 0.2s var(--ease); }
+.invite-hero__map:hover { background: #e8ca8b; transform: translateY(-1px); }
+
+/* =========================================================
+   06b · Diễn biến các lễ — thẻ card nối bằng trục dọc tự vẽ theo scroll
+   ========================================================= */
+.ceremony__head { text-align: center; margin: clamp(2.6rem, 8vw, 3.4rem) 0 1.8rem; }
+.ceremony__eyebrow { font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--maroon); margin: 0 0 0.5rem; }
+.ceremony__title { font-family: var(--serif); font-weight: 600; font-size: clamp(1.5rem, 7vw, 2.1rem); letter-spacing: 0.04em; color: var(--maroon); margin: 0; }
+.ceremony__title-underline { width: 60px; height: 2px; margin: 0.8rem auto 0; background: linear-gradient(90deg, transparent, var(--gold-soft), transparent); }
+
+.schedule { position: relative; padding-left: 2.8rem; }
+/* Đường ray nền mờ (luôn hiện) */
+.schedule__rail { position: absolute; left: 10px; top: 6px; bottom: 6px; width: 3px; border-radius: 3px; background: rgba(122, 13, 22, 0.12); }
+/* Đường vẽ tiến trình cao dần theo scroll (--progress: 0→1) */
+.schedule__rail::after {
+  content: ""; position: absolute; left: 0; top: 0; width: 100%;
+  height: calc(var(--progress, 0) * 100%); border-radius: 3px;
+  background: linear-gradient(180deg, var(--gold) 0%, #c9302c 20%, var(--maroon) 60%, var(--maroon-dk) 100%);
+  box-shadow: 0 0 12px rgba(201, 48, 44, 0.55); transition: height 0.12s linear;
+}
+/* Đốm sáng chạy đầu đường vẽ */
+.schedule__spark {
+  position: absolute; left: 11.5px; width: 10px; height: 10px; margin-left: -5px;
+  border-radius: 50%; background: radial-gradient(circle, #fff6e6, var(--gold));
+  box-shadow: 0 0 10px 3px rgba(217, 184, 113, 0.85);
+  top: calc(6px + var(--progress, 0) * var(--rail-h, 0px));
+  opacity: var(--spark-op, 0); transition: opacity 0.3s ease; z-index: 3; pointer-events: none;
+}
+.schedule__item { position: relative; margin-bottom: clamp(1.4rem, 4.5vw, 1.9rem); opacity: 0; transform: translateY(26px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
+.schedule__item:last-child { margin-bottom: 0; }
+.schedule__item.is-in { opacity: 1; transform: translateY(0); }
+/* Mốc tròn số thứ tự — mặc định chưa kích hoạt */
+.schedule__node {
+  position: absolute; left: -2.8rem; top: 16px; width: 26px; height: 26px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-weight: 600; font-size: 0.78rem; color: var(--muted);
+  background: var(--paper); border: 2px solid rgba(122, 13, 22, 0.25);
+  z-index: 2; transition: color 0.45s var(--ease), background 0.45s var(--ease), border-color 0.45s var(--ease), box-shadow 0.45s var(--ease), transform 0.45s var(--ease);
+}
+.schedule__node::before { content: ""; position: absolute; inset: -6px; border-radius: 50%; border: 1px solid rgba(217, 184, 113, 0); transition: inset 0.5s var(--ease), border-color 0.5s var(--ease); }
+.schedule__item.is-active .schedule__node { color: #fff; background: var(--maroon); border-color: var(--gold); box-shadow: 0 0 0 4px rgba(122, 13, 22, 0.14), 0 6px 16px -6px rgba(92, 10, 17, 0.7); transform: scale(1.12); }
+.schedule__item.is-active .schedule__node::before { inset: -7px; border-color: rgba(217, 184, 113, 0.75); animation: nodePulse 2.4s var(--ease) infinite; }
+@keyframes nodePulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.18); opacity: 0.35; }
+}
+/* Nhánh nhỏ nối trục vào thẻ */
+.schedule__item::before { content: ""; position: absolute; left: -1.75rem; top: 28px; width: 1.35rem; height: 2px; background: rgba(122, 13, 22, 0.15); transition: background 0.45s var(--ease); }
+.schedule__item.is-active::before { background: linear-gradient(90deg, var(--gold), var(--maroon)); }
+
+/* Thẻ nổi bật nền ĐỎ (Lễ Thành Hôn · Đón Dâu) — đảo màu, giữ nguyên nội dung */
+.invite-card--red {
+  position: relative; overflow: hidden; color: #fff5ee; border: none;
+  background:
+    radial-gradient(120% 60% at 50% -10%, rgba(217, 184, 113, 0.28), transparent 60%),
+    linear-gradient(160deg, #8f1520 0%, #7a0d16 45%, #5c0a11 100%);
+  box-shadow: 0 26px 52px -30px rgba(92, 10, 17, 0.75), inset 0 0 0 1px rgba(217, 184, 113, 0.4);
+}
+.invite-card--red::before { content: ""; position: absolute; inset: 10px; border-radius: 6px; border: 1px solid rgba(217, 184, 113, 0.4); pointer-events: none; z-index: 1; }
+.invite-card--red::after { content: ""; position: absolute; top: -40%; left: -30%; width: 55%; height: 180%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent); transform: rotate(18deg); animation: heroSheen 6.5s var(--ease) infinite; pointer-events: none; }
+.invite-card--red > * { position: relative; z-index: 2; }
+.invite-card--red .invite-card__title { color: var(--gold); }
+.invite-card--red .invite-card__time { color: #f3e6d8; }
+.invite-card--red .invite-card__dow, .invite-card--red .invite-card__my { color: #f0e2d4; }
+.invite-card--red .invite-card__dow::after, .invite-card--red .invite-card__my::before { background: rgba(217, 184, 113, 0.45); }
+.invite-card--red .invite-card__day { color: #fff; text-shadow: 0 2px 14px rgba(0, 0, 0, 0.3); }
+.invite-card--red .invite-card__lunar { color: #e9d9c8; }
+.invite-card--red .invite-card__place { border-color: rgba(217, 184, 113, 0.5); background: rgba(0, 0, 0, 0.08); }
+.invite-card--red .invite-card__place-label { color: var(--gold); }
+.invite-card--red .invite-card__venue { color: #fff; }
+.invite-card--red .invite-card__addr { color: #f2e6d9; }
+.invite-card--red .invite-card__map { background: var(--gold); color: var(--maroon-dk); }
+.invite-card--red .invite-card__map:hover { background: #e8ca8b; }
+/* Feature header (banner + tên + hình) trên nền đỏ */
+.invite-card--red .invite-card__banner { color: var(--gold); }
+.invite-card--red .invite-card__hero-lead { color: #f0e2d4; }
+.invite-card--red .invite-card__hero-name { color: #fff; text-shadow: 0 2px 16px rgba(0, 0, 0, 0.28); }
+.invite-card--red .invite-card__hero-heart { color: var(--gold); }
+.invite-card--red .invite-card__figure { color: var(--gold); }
+
+@media (prefers-reduced-motion: reduce) {
+  .invite-hero::after, .invite-card--red::after, .invite-hero__petal { animation: none; }
+  .schedule__item.is-active .schedule__node::before { animation: none; }
+  .schedule__item { opacity: 1; transform: none; }
+}
 
 /* =========================================================
    07 · Gallery
