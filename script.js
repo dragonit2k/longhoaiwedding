@@ -117,6 +117,14 @@ const weddingConfig = {
       mapUrl: "https://maps.app.goo.gl/bsy9gxdggjhfZ4o37",
       // feature: true -> thẻ nổi bật kiểu "hero" (banner OUR WEDDING + tên cô dâu chú rể + hình minh hoạ)
       feature: true,
+      // preEvent: lễ phụ hiển thị NGAY TRÊN lễ chính trong cùng thẻ (vd Vu Quy bên nhà gái trước khi đón dâu)
+      preEvent: {
+        time: "08:30",
+        title: "Lễ Vu Quy",
+        venue: "Tư gia nhà gái",
+        address: "Eo Bàn, Ngọc Trạo, Thanh Hóa",
+        mapUrl: "https://maps.app.goo.gl/5ycScWKWtn7CqyGG6",
+      },
     }
   ],
 
@@ -371,8 +379,29 @@ function buildFeatureHeader() {
     </div>`;
 }
 
+/* ---------- Khối lễ phụ (preEvent): hiển thị NGAY TRÊN lễ chính trong cùng thẻ ----------
+   Dùng cho lễ diễn ra trước cùng ngày (vd Lễ Vu Quy bên nhà gái trước khi Đón Dâu). */
+function buildPreEventBlock(pre) {
+  const mapBtn = pre.mapUrl
+    ? `<a class="btn btn--filled btn--sm invite-card__map" href="${escapeAttr(pre.mapUrl)}"
+          target="_blank" rel="noopener noreferrer">Xem bản đồ</a>`
+    : "";
+  return `
+    <div class="invite-card__pre">
+      <h3 class="invite-card__title">${escapeHtml(pre.title || "")}</h3>
+      ${pre.time ? `<p class="invite-card__time">Vào Lúc ${escapeHtml(pre.time)}</p>` : ""}
+      <div class="invite-card__place">
+        <p class="invite-card__place-label">Địa điểm tổ chức</p>
+        ${pre.venue ? `<p class="invite-card__venue">${escapeHtml(pre.venue)}</p>` : ""}
+        ${pre.address ? `<p class="invite-card__addr">${escapeHtml(pre.address)}</p>` : ""}
+        ${mapBtn}
+      </div>
+      <div class="invite-card__pre-sep" aria-hidden="true"><span></span><em>&amp;</em><span></span></div>
+    </div>`;
+}
+
 /* ---------- Thẻ mời dùng chung (Thư mời + Tiệc tân hôn) ----------
-   Bố cục: [feature] tiêu đề → giờ → hộp ngày 3 ô (thứ · ngày · tháng-năm)
+   Bố cục: [feature] [lễ phụ] tiêu đề → giờ → hộp ngày 3 ô (thứ · ngày · tháng-năm)
            → âm lịch → khung địa điểm (nhãn + nơi tổ chức + địa chỉ) → nút bản đồ */
 function buildInviteCard(ev, { title, highlight, red } = {}) {
   const dd = formatDMY(ev.date);
@@ -384,11 +413,14 @@ function buildInviteCard(ev, { title, highlight, red } = {}) {
 
   // Thẻ nổi bật (feature): banner "OUR WEDDING" + tên cô dâu/chú rể + hình minh hoạ
   const feature = ev.feature ? buildFeatureHeader() : "";
+  // Lễ phụ hiển thị ngay TRÊN lễ chính trong cùng thẻ (vd Vu Quy trước Đón Dâu)
+  const preEvent = ev.preEvent ? buildPreEventBlock(ev.preEvent) : "";
   const cls = `invite-card reveal${highlight ? " invite-card--highlight" : ""}${ev.feature ? " invite-card--feature" : ""}${red ? " invite-card--red" : ""}`;
 
   return `
     <article class="${cls}">
       ${feature}
+      ${preEvent}
       <h3 class="invite-card__title">${escapeHtml(cardTitle)}</h3>
       ${ev.time ? `<p class="invite-card__time">Vào Lúc ${escapeHtml(ev.time)}</p>` : ""}
 
@@ -476,38 +508,104 @@ function renderEvents(events) {
   if (head) head.hidden = false;
 
   const cards = events
-    .map((ev, i) => {
+    .map((ev) => {
       const highlight = ev.feature ? false : ev.highlight; // thẻ feature dùng nền đỏ riêng
       const card = buildInviteCard(ev, { highlight, red: ev.feature });
       return `
         <div class="schedule__item">
-          <span class="schedule__node">${i + 1}</span>
+          <span class="schedule__knot" aria-hidden="true"></span>
           ${card}
         </div>`;
     })
     .join("");
 
+  // "Chỉ Duyên": sợi tơ hồng SVG (4 lớp) luồn giữa & sau box, se dần theo scroll
   wrap.innerHTML = `
     <div class="schedule">
-      <span class="schedule__rail" aria-hidden="true"></span>
-      <span class="schedule__spark" aria-hidden="true"></span>
+      <svg class="schedule__thread" aria-hidden="true" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="schedThreadGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#e8c987"/>
+            <stop offset="18%" stop-color="#d9b871"/>
+            <stop offset="45%" stop-color="#c9302c"/>
+            <stop offset="78%" stop-color="#7a0d16"/>
+            <stop offset="100%" stop-color="#5c0a11"/>
+          </linearGradient>
+        </defs>
+        <path class="thread-base" aria-hidden="true"></path>
+        <path class="thread-glow" aria-hidden="true"></path>
+        <path class="thread-core" aria-hidden="true"></path>
+        <path class="thread-shine" aria-hidden="true"></path>
+      </svg>
+      <span class="schedule__trail" aria-hidden="true"></span>
+      <span class="schedule__bead" aria-hidden="true"></span>
       ${cards}
     </div>`;
 
   initScheduleRail();
 }
 
-/* ---------- Trục dọc "Diễn biến các lễ" tự vẽ theo scroll ---------- */
+/* ---------- "Chỉ Duyên": sợi tơ hồng tự se theo scroll ----------
+   Sợi cong SVG luồn giữa & sau box (box đè lên che một phần), se dần bằng
+   stroke-dashoffset. Mỗi lễ thắt một nút duyên vàng khi đầu sợi chạm tới. */
 function initScheduleRail() {
   const schedule = document.querySelector("#eventsGrid .schedule");
   if (!schedule) return;
 
-  const rail = schedule.querySelector(".schedule__rail");
+  const svg = schedule.querySelector(".schedule__thread");
+  const pBase = schedule.querySelector(".thread-base");
+  const pGlow = schedule.querySelector(".thread-glow");
+  const pCore = schedule.querySelector(".thread-core");
+  const pShine = schedule.querySelector(".thread-shine");
+  const bead = schedule.querySelector(".schedule__bead");
+  const trail = schedule.querySelector(".schedule__trail");
   const items = Array.prototype.slice.call(schedule.querySelectorAll(".schedule__item"));
+  let len = 0;
+
+  // Dựng sợi: uốn "nhịp thở" — đi qua gần tâm mỗi box (điểm thắt) rồi phình ra giữa quãng
+  const buildThread = () => {
+    const w = schedule.clientWidth;
+    const h = schedule.scrollHeight;
+    const cx = w / 2;
+    const maxAmp = Math.min(w * 0.34, 128);
+    svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+    svg.setAttribute("width", w);
+    svg.setAttribute("height", h);
+
+    const schedTop = schedule.getBoundingClientRect().top + window.scrollY;
+    const knots = items.map((it) => it.getBoundingClientRect().top + window.scrollY - schedTop);
+
+    const pts = [[cx, 0]];
+    let dir = 1;
+    for (let k = 0; k < knots.length; k++) {
+      const yKnot = knots[k];
+      const yBelly = (pts[pts.length - 1][1] + yKnot) / 2;
+      const fade = 0.7 + 0.3 * (1 - k / Math.max(1, knots.length));
+      pts.push([cx + dir * maxAmp * fade, yBelly]); // bụng sóng
+      pts.push([cx + dir * 10, yKnot]);             // về gần trục tại nút
+      dir *= -1;
+    }
+    pts.push([cx, h]);
+
+    let d = `M${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
+    for (let i = 0; i < pts.length - 1; i++) {
+      const p0 = pts[i - 1] || pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] || p2;
+      const c1x = p1[0] + (p2[0] - p0[0]) / 6, c1y = p1[1] + (p2[1] - p0[1]) / 6;
+      const c2x = p2[0] - (p3[0] - p1[0]) / 6, c2y = p2[1] - (p3[1] - p1[1]) / 6;
+      d += ` C${c1x.toFixed(1)} ${c1y.toFixed(1)}, ${c2x.toFixed(1)} ${c2y.toFixed(1)}, ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
+    }
+    [pBase, pGlow, pCore, pShine].forEach((p) => p.setAttribute("d", d));
+
+    len = pCore.getTotalLength();
+    [pGlow, pCore, pShine].forEach((p) => {
+      p.style.strokeDasharray = len;
+      p.style.strokeDashoffset = prefersReducedMotion ? 0 : len;
+    });
+  };
 
   // Reduced motion: hiện đầy đủ, không animate
   if (prefersReducedMotion) {
-    schedule.style.setProperty("--progress", "1");
+    buildThread();
     items.forEach((it) => it.classList.add("is-in", "is-active"));
     return;
   }
@@ -533,23 +631,34 @@ function initScheduleRail() {
   const update = () => {
     const rect = schedule.getBoundingClientRect();
     const vh = window.innerHeight || document.documentElement.clientHeight;
-    const start = vh * 0.75;
+    const start = vh * 0.72;
     const total = rect.height + start * 0.4;
     const passed = start - rect.top;
     const p = Math.max(0, Math.min(1, passed / total));
-    schedule.style.setProperty("--progress", p.toFixed(4));
-    if (rail) schedule.style.setProperty("--rail-h", rail.offsetHeight + "px");
-    schedule.style.setProperty("--spark-op", p > 0.02 && p < 0.99 ? "1" : "0");
+    const drawn = len * p;
 
-    if (rail) {
-      const drawnY = rail.getBoundingClientRect().top + rail.offsetHeight * p;
-      items.forEach((it) => {
-        const node = it.querySelector(".schedule__node");
-        if (!node) return;
-        const ny = node.getBoundingClientRect().top + node.offsetHeight / 2;
-        it.classList.toggle("is-active", drawnY >= ny);
-      });
+    // Se sợi dần
+    [pGlow, pCore].forEach((pp) => (pp.style.strokeDashoffset = (len - drawn).toFixed(1)));
+    // Ánh kim đi trước một chút (lấp lánh dẫn đường)
+    pShine.style.strokeDashoffset = (len - Math.min(len, drawn + 18)).toFixed(1);
+
+    // Hạt sáng + đuôi comet bám đầu sợi
+    if (len > 0) {
+      const head = pCore.getPointAtLength(drawn);
+      bead.style.transform = `translate(${head.x}px,${head.y}px)`;
+      const tailPt = pCore.getPointAtLength(Math.max(0, drawn - 14));
+      trail.style.transform = `translate(${tailPt.x}px,${tailPt.y}px)`;
+      const on = p > 0.008 && p < 0.992;
+      bead.style.opacity = on ? "1" : "0";
+      trail.style.opacity = on ? ".85" : "0";
     }
+
+    // Thắt nút + highlight box khi đầu sợi đi qua mép trên box
+    const drawnY = rect.top + rect.height * p;
+    items.forEach((it) => {
+      const r = it.getBoundingClientRect();
+      it.classList.toggle("is-active", drawnY >= r.top + 6);
+    });
   };
 
   let ticking = false;
@@ -562,7 +671,19 @@ function initScheduleRail() {
     });
   };
   window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", onScroll);
+  window.addEventListener("resize", () => {
+    buildThread();
+    update();
+  });
+  window.addEventListener("load", () => {
+    buildThread();
+    update();
+  });
+  setTimeout(() => {
+    buildThread();
+    update();
+  }, 320);
+  buildThread();
   update();
 }
 

@@ -105,7 +105,7 @@ button { font-family: inherit; cursor: pointer; }
 .pill--ghost::before, .pill--ghost::after { content: none; }
 
 .display {
-  font-family: var(--serif-alt);
+  font-family: var(--script);
   font-style: italic;
   font-weight: 500;
   font-size: clamp(1.7rem, 7.5vw, 2.4rem);
@@ -499,6 +499,21 @@ button { font-family: inherit; cursor: pointer; }
 /* Trên thẻ feature: tiêu đề "Lễ Thành Hôn" tách khỏi hero bằng khoảng đệm */
 .invite-card--feature .invite-card__title { margin-top: 0.2rem; }
 
+/* Khối lễ phụ (vd Lễ Vu Quy) đặt ngay trên lễ chính trong cùng thẻ */
+.invite-card__pre { margin-bottom: 0.4rem; }
+.invite-card__pre-sep {
+  display: flex; align-items: center; justify-content: center; gap: 0.8rem;
+  margin: 1.5rem auto 0.4rem; max-width: 70%;
+}
+.invite-card__pre-sep span {
+  height: 1px; flex: 1;
+  background: linear-gradient(90deg, transparent, rgba(122, 13, 22, 0.4), transparent);
+}
+.invite-card__pre-sep em {
+  font-family: var(--script); font-style: normal;
+  font-size: 1.4rem; color: var(--maroon); line-height: 1;
+}
+
 /* =========================================================
    06 · Thư mời cưới — 1 box nền đỏ gộp lời mời + tiệc mừng tân hôn
    ========================================================= */
@@ -578,45 +593,48 @@ button { font-family: inherit; cursor: pointer; }
 .ceremony__title { font-family: var(--serif); font-weight: 600; font-size: clamp(1.5rem, 7vw, 2.1rem); letter-spacing: 0.04em; color: var(--maroon); margin: 0; }
 .ceremony__title-underline { width: 60px; height: 2px; margin: 0.8rem auto 0; background: linear-gradient(90deg, transparent, var(--gold-soft), transparent); }
 
-.schedule { position: relative; padding-left: 2.8rem; }
-/* Đường ray nền mờ (luôn hiện) */
-.schedule__rail { position: absolute; left: 10px; top: 6px; bottom: 6px; width: 3px; border-radius: 3px; background: rgba(122, 13, 22, 0.12); }
-/* Đường vẽ tiến trình cao dần theo scroll (--progress: 0→1) */
-.schedule__rail::after {
-  content: ""; position: absolute; left: 0; top: 0; width: 100%;
-  height: calc(var(--progress, 0) * 100%); border-radius: 3px;
-  background: linear-gradient(180deg, var(--gold) 0%, #c9302c 20%, var(--maroon) 60%, var(--maroon-dk) 100%);
-  box-shadow: 0 0 12px rgba(201, 48, 44, 0.55); transition: height 0.12s linear;
+/* "Chỉ Duyên": box full-width, sợi tơ hồng luồn giữa & sau box */
+.schedule { position: relative; }
+
+/* Lớp SVG sợi chỉ: phủ toàn khối, nằm DƯỚI box */
+.schedule__thread { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; overflow: visible; }
+.schedule__thread path { fill: none; stroke-linecap: round; }
+/* Sợi nền mờ — chấm bi mảnh, gợi sợi chỉ đang chờ se duyên */
+.thread-base { stroke: rgba(122, 13, 22, 0.16); stroke-width: 1.6; stroke-dasharray: 1 7; }
+/* Quầng sáng nền của sợi đã se */
+.thread-glow { stroke: rgba(201, 48, 44, 0.28); stroke-width: 7; filter: blur(5px); transition: stroke-dashoffset 0.14s linear; }
+/* Sợi tơ hồng chính — se dần theo scroll */
+.thread-core { stroke: url(#schedThreadGrad); stroke-width: 2.6; filter: drop-shadow(0 1px 2px rgba(92, 10, 17, 0.5)); transition: stroke-dashoffset 0.14s linear; }
+/* Ánh kim lấp lánh chạy chồng trên sợi */
+.thread-shine { stroke: rgba(255, 240, 205, 0.9); stroke-width: 0.9; transition: stroke-dashoffset 0.14s linear; }
+
+/* Hạt sáng đầu sợi + quầng thở */
+.schedule__bead { position: absolute; left: 0; top: 0; z-index: 1; pointer-events: none; width: 14px; height: 14px; margin: -7px 0 0 -7px; opacity: 0; transition: opacity 0.35s ease; }
+.schedule__bead::before { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: radial-gradient(circle, #fff6e6 0%, var(--gold) 55%, rgba(217, 184, 113, 0) 100%); box-shadow: 0 0 10px 3px rgba(217, 184, 113, 0.9), 0 0 3px 1px rgba(255, 255, 255, 0.33); }
+.schedule__bead::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 1px solid rgba(217, 184, 113, 0.55); animation: beadPulse 2.6s var(--ease) infinite; }
+@keyframes beadPulse {
+  0%, 100% { transform: scale(0.8); opacity: 0.75; }
+  50% { transform: scale(1.5); opacity: 0; }
 }
-/* Đốm sáng chạy đầu đường vẽ */
-.schedule__spark {
-  position: absolute; left: 11.5px; width: 10px; height: 10px; margin-left: -5px;
-  border-radius: 50%; background: radial-gradient(circle, #fff6e6, var(--gold));
-  box-shadow: 0 0 10px 3px rgba(217, 184, 113, 0.85);
-  top: calc(6px + var(--progress, 0) * var(--rail-h, 0px));
-  opacity: var(--spark-op, 0); transition: opacity 0.3s ease; z-index: 3; pointer-events: none;
-}
-.schedule__item { position: relative; margin-bottom: clamp(1.4rem, 4.5vw, 1.9rem); opacity: 0; transform: translateY(26px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
+/* Đuôi comet mờ theo sau hạt */
+.schedule__trail { position: absolute; left: 0; top: 0; z-index: 1; pointer-events: none; width: 5px; height: 5px; margin: -2.5px 0 0 -2.5px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 214, 150, 0.9), rgba(255, 214, 150, 0)); opacity: 0; transition: opacity 0.4s ease; }
+
+.schedule__item { position: relative; z-index: 2; margin-bottom: clamp(1.7rem, 5.2vw, 2.2rem); opacity: 0; transform: translateY(26px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
 .schedule__item:last-child { margin-bottom: 0; }
 .schedule__item.is-in { opacity: 1; transform: translateY(0); }
-/* Mốc tròn số thứ tự — mặc định chưa kích hoạt */
-.schedule__node {
-  position: absolute; left: -2.8rem; top: 16px; width: 26px; height: 26px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--serif); font-weight: 600; font-size: 0.78rem; color: var(--muted);
-  background: var(--paper); border: 2px solid rgba(122, 13, 22, 0.25);
-  z-index: 2; transition: color 0.45s var(--ease), background 0.45s var(--ease), border-color 0.45s var(--ease), box-shadow 0.45s var(--ease), transform 0.45s var(--ease);
+
+/* Nút thắt duyên — vòng tròn vàng tại điểm sợi chạm box */
+.schedule__knot {
+  position: absolute; top: -9px; left: 50%; z-index: 3; width: 16px; height: 16px; margin-left: -8px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff3d6, var(--gold) 60%, var(--gold-deep));
+  border: 1.5px solid #fff; box-shadow: 0 2px 6px -1px rgba(92, 10, 17, 0.4);
+  transform: scale(0); opacity: 0; transition: transform 0.5s var(--ease), opacity 0.4s ease;
 }
-.schedule__node::before { content: ""; position: absolute; inset: -6px; border-radius: 50%; border: 1px solid rgba(217, 184, 113, 0); transition: inset 0.5s var(--ease), border-color 0.5s var(--ease); }
-.schedule__item.is-active .schedule__node { color: #fff; background: var(--maroon); border-color: var(--gold); box-shadow: 0 0 0 4px rgba(122, 13, 22, 0.14), 0 6px 16px -6px rgba(92, 10, 17, 0.7); transform: scale(1.12); }
-.schedule__item.is-active .schedule__node::before { inset: -7px; border-color: rgba(217, 184, 113, 0.75); animation: nodePulse 2.4s var(--ease) infinite; }
-@keyframes nodePulse {
-  0%, 100% { transform: scale(1); opacity: 0.9; }
-  50% { transform: scale(1.18); opacity: 0.35; }
-}
-/* Nhánh nhỏ nối trục vào thẻ */
-.schedule__item::before { content: ""; position: absolute; left: -1.75rem; top: 28px; width: 1.35rem; height: 2px; background: rgba(122, 13, 22, 0.15); transition: background 0.45s var(--ease); }
-.schedule__item.is-active::before { background: linear-gradient(90deg, var(--gold), var(--maroon)); }
+.schedule__knot::before { content: ""; position: absolute; inset: -5px; border-radius: 50%; border: 1px solid rgba(217, 184, 113, 0); transition: inset 0.5s var(--ease), border-color 0.5s var(--ease); }
+.schedule__item.is-active .schedule__knot { transform: scale(1); opacity: 1; }
+.schedule__item.is-active .schedule__knot::before { inset: -6px; border-color: rgba(217, 184, 113, 0.7); }
+/* Khi sợi chạm → thẻ sáng viền vàng + nảy nhẹ */
+.schedule__item.is-active .invite-card { transform: translateY(-2px); box-shadow: 0 22px 52px -26px rgba(92, 10, 17, 0.6), 0 0 0 1px rgba(217, 184, 113, 0.32); }
 
 /* Thẻ nổi bật nền ĐỎ (Lễ Thành Hôn · Đón Dâu) — đảo màu, giữ nguyên nội dung */
 .invite-card--red {
@@ -650,7 +668,7 @@ button { font-family: inherit; cursor: pointer; }
 
 @media (prefers-reduced-motion: reduce) {
   .invite-hero::after, .invite-card--red::after, .invite-hero__petal { animation: none; }
-  .schedule__item.is-active .schedule__node::before { animation: none; }
+  .schedule__bead::after { animation: none; }
   .schedule__item { opacity: 1; transform: none; }
 }
 
