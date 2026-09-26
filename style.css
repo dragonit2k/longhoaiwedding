@@ -848,9 +848,10 @@ button { font-family: inherit; cursor: pointer; }
 }
 .music:hover { transform: scale(1.06); }
 .music__icon { width: 20px; height: 20px; }
-.music.is-playing .music__icon { animation: music-pulse 1.4s ease-in-out infinite; }
-@keyframes music-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-@media (prefers-reduced-motion: reduce) { .music.is-playing .music__icon { animation: none; } }
+.music.is-playing { animation: music-spin 3.2s linear infinite; }
+.music.is-playing:hover { animation-play-state: paused; }
+@keyframes music-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .music.is-playing { animation: none; } }
 
 /* =========================================================
    Lightbox
