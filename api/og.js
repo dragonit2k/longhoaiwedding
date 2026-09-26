@@ -54,7 +54,7 @@ export default function handler(req) {
     ? `Trân trọng kính mời ${guest} đến chung vui cùng gia đình chúng tôi — 11.10.2026`
     : DEFAULT_DESC;
 
-  const image = `${base}/assets/hero.jpg`;
+  const image = `${base}/assets/og-share.jpg`;
   const canonical = guest
     ? `${base}/?guest=${encodeURIComponent(guest)}`
     : `${base}/`;
@@ -86,8 +86,8 @@ export default function handler(req) {
   <meta property="og:image" content="${esc(image)}" />
   <meta property="og:image:secure_url" content="${esc(image)}" />
   <meta property="og:image:type" content="image/jpeg" />
-  <meta property="og:image:width" content="1706" />
-  <meta property="og:image:height" content="2560" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Ảnh cưới ${esc(COUPLE)}" />
 
   <meta name="twitter:card" content="summary_large_image" />
