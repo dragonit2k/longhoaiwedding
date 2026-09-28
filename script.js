@@ -8,6 +8,17 @@ const weddingConfig = {
   groom: "Đặng Long",
   bride: "Lê Hoài",
 
+  // Lời mời trong box "Thư mời cưới" — dùng KHI mở link có ?side=gai (tiệc nhà gái).
+  //   Khi KHÔNG có ?side=gai (mặc định) -> dùng lời mời nhà trai như cũ.
+  //   Chỉ cần điền trường muốn đổi; trường bỏ trống vẫn dùng mặc định.
+  //     eyebrow : dòng nhỏ phía trên tên khách (mặc định "Trân trọng kính mời")
+  //     lead    : dòng chính (mặc định "Đến chung vui cùng gia đình chúng tôi")
+  //     note    : dòng mô tả bên dưới
+  // receptionInviteBride: {
+  //   lead: "Đến chung vui cùng gia đình chúng tôi",
+  //   note: "trong lễ Vu Quy của hai con. Sự hiện diện của quý khách là niềm vinh hạnh cho gia đình chúng tôi.",
+  // },
+
   // Mốc chính dùng cho ĐẾM NGƯỢC & ngày hiển thị ở Hero/Final (giờ địa phương)
   weddingDate: "2026-10-11T11:00:00",
 
@@ -80,20 +91,21 @@ const weddingConfig = {
       address: "Eo Bàn, Ngọc Trạo, Thanh Hóa",
       mapUrl: "https://maps.app.goo.gl/EpakwsPEQf3Zt3jv8",
     },
-    // {
-    //   date: "2026-10-10",
-    //   lunar: "Ngày 1 tháng 9 năm Bính Ngọ",
-    //   time: "11:00",
-    //   title: "Tiệc Mừng Tân Hôn",
-    //   venue: "Tư gia nhà gái",
-    //   address: "Thôn Eo Bàn, Xã Ngọc Trạo, Tỉnh Thanh Hóa",
-    //   mapUrl: "https://maps.app.goo.gl/5ycScWKWtn7CqyGG6",
-    //   highlight: true,
-    //   badge: "Tiệc tại gia · Nhà Gái",
-    //   // reception: true -> chuyển sang khu "Tiệc Mừng Tân Hôn" riêng, ẩn khỏi lịch trình chung
-    //   reception: true,
-    //   receptionSide: "Nhà Gái",
-    // },
+    // Tiệc nhà gái — chỉ hiển thị ở box "Thư mời cưới" khi mở link có ?side=gai
+    {
+      date: "2026-10-10",
+      lunar: "Ngày 1 tháng 9 năm Bính Ngọ",
+      time: "11:00",
+      title: "Tiệc Mừng Tân Hôn",
+      venue: "Tư gia nhà gái",
+      address: "Thôn Eo Bàn, Xã Ngọc Trạo, Tỉnh Thanh Hóa",
+      mapUrl: "https://maps.app.goo.gl/5ycScWKWtn7CqyGG6",
+      highlight: true,
+      badge: "Tiệc tại gia · Nhà Gái",
+      // reception: true -> chuyển sang khu "Tiệc Mừng Tân Hôn" riêng, ẩn khỏi lịch trình chung
+      reception: true,
+      receptionSide: "Nhà Gái",
+    },
     {
       date: "2026-10-11",
       lunar: "Ngày 2 tháng 9 năm Bính Ngọ",
@@ -202,9 +214,14 @@ function applyConfig() {
   });
 
   renderCouple(c.families);
-  // Lịch trình chung: bỏ các mốc thuộc "Tiệc Mừng Tân Hôn" (đã có khu riêng)
+  // Phía tổ chức tiệc: mặc định nhà trai, ?side=gai -> nhà gái
+  const side = getReceptionSide();
+  const receptionEvents = c.events.filter(
+    (ev) => ev.reception && (ev.receptionSide || "Nhà Trai") === side
+  );
+  // Lịch trình chung: bỏ MỌI mốc "Tiệc Mừng Tân Hôn" (đã có khu riêng cho cả hai phía)
   renderEvents(c.events.filter((ev) => !ev.reception));
-  renderReception(c.events.filter((ev) => ev.reception));
+  renderReception(receptionEvents, side);
   renderBanks(c.banks);
   applyCallButtons(c.families);
   applyGuestGreeting();
@@ -233,6 +250,19 @@ function getGuestName() {
     return raw.trim().replace(/[ -<>&"]/g, "").slice(0, 60);
   } catch (_) {
     return "";
+  }
+}
+
+/* ---------- Phía tổ chức tiệc theo URL (?side=gai) ---------- */
+// Trả về "Nhà Gái" khi link có ?side=gai, ngược lại "Nhà Trai" (mặc định).
+function getReceptionSide() {
+  try {
+    const raw = (new URLSearchParams(window.location.search).get("side") || "")
+      .trim()
+      .toLowerCase();
+    return raw === "gai" ? "Nhà Gái" : "Nhà Trai";
+  } catch (_) {
+    return "Nhà Trai";
   }
 }
 
@@ -442,13 +472,21 @@ function buildInviteCard(ev, { title, highlight, red } = {}) {
 }
 
 /* ---------- Render box đỏ "Thư mời cưới": lời mời + tên khách + tiệc mừng tân hôn ---------- */
-function renderReception(items) {
+function renderReception(items, side) {
   const wrap = document.getElementById("receptionGrid");
   if (!wrap || !Array.isArray(items)) return;
 
   const c = weddingConfig;
   const guest = getGuestName() || "Quý Khách";
   const ev = items[0]; // mốc "Tiệc Mừng Tân Hôn" (reception: true)
+
+  // Lời mời: mặc định theo nhà trai; khi mở link ?side=gai thì dùng lời mời nhà gái
+  const invite = (side === "Nhà Gái" && c.receptionInviteBride) || {};
+  const inviteEyebrow = invite.eyebrow || "Trân trọng kính mời";
+  const inviteLead = invite.lead || "Đến chung vui cùng gia đình chúng tôi";
+  const inviteNote =
+    invite.note ||
+    "trong tiệc mừng tân hôn của hai con. Sự hiện diện của quý khách là niềm vinh hạnh cho gia đình chúng tôi.";
 
   // Khối thông tin tiệc (giờ · ngày · âm lịch · địa điểm · bản đồ) — gộp trong box đỏ
   let party = "";
@@ -483,11 +521,11 @@ function renderReception(items) {
       <span class="invite-hero__petal p3" aria-hidden="true"></span>
       <span class="invite-hero__petal p4" aria-hidden="true"></span>
       <div class="invite-hero__inner">
-        <p class="invite-hero__eyebrow">Trân trọng kính mời</p>
+        <p class="invite-hero__eyebrow">${escapeHtml(inviteEyebrow)}</p>
         <p class="invite-hero__guest" data-guest-name>${escapeHtml(guest)}</p>
         <div class="invite-hero__divider" aria-hidden="true"><span></span><span class="invite-hero__heart">&#10084;</span><span></span></div>
-        <p class="invite-hero__lead">Đến chung vui cùng gia đình chúng tôi</p>
-        <p class="invite-hero__note">trong tiệc mừng tân hôn của hai con. Sự hiện diện của quý khách là niềm vinh hạnh cho gia đình chúng tôi.</p>
+        <p class="invite-hero__lead">${escapeHtml(inviteLead)}</p>
+        <p class="invite-hero__note">${escapeHtml(inviteNote)}</p>
         <p class="invite-hero__couple">${escapeHtml(c.groom || "")} &amp; ${escapeHtml(c.bride || "")}</p>
         ${party}
       </div>
