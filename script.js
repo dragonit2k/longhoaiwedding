@@ -95,7 +95,7 @@ const weddingConfig = {
     {
       date: "2026-10-10",
       lunar: "Ngày 1 tháng 9 năm Bính Ngọ",
-      time: "11:00",
+      time: "10:00",
       title: "Tiệc Mừng Tân Hôn",
       venue: "Tư gia nhà gái",
       address: "Thôn Eo Bàn, Xã Ngọc Trạo, Tỉnh Thanh Hóa",
