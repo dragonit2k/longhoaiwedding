@@ -85,7 +85,7 @@ const weddingConfig = {
     {
       date: "2026-10-09",
       lunar: "Ngày 29 tháng 8 năm Bính Ngọ",
-      time: "17:00",
+      time: "19:15",
       title: "Thánh Lễ Hôn Phối",
       venue: "Nhà thờ giáo xứ Du Nghì",
       address: "Eo Bàn, Ngọc Trạo, Thanh Hóa",
